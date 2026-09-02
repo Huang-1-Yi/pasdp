@@ -1,8 +1,8 @@
-# Robotics Paper Website — Public Preview
+# PASDP — Public Preview
 
-A dependency-free static project page prepared for GitHub Pages.
+A dependency-free static project page for **Position-Aware Streaming Diffusion Policy (PASDP)**, prepared for GitHub Pages.
 
-This preview intentionally contains no paper PDF, experiment videos, final author details, or active resource links. Replace every visible placeholder and review the page before announcing it publicly.
+The text and reported results are based on manuscript v12. This preview intentionally contains no paper PDF, experiment videos, final author details, or active resource links. Review and complete the metadata before announcing it publicly.
 
 ## Local preview
 
@@ -21,4 +21,4 @@ Then open `http://localhost:8000/`.
 - Keep large source footage outside the repository.
 - Confirm that every uploaded asset is owned by the project or licensed for redistribution.
 
-The website uses only local HTML, CSS, JavaScript, and an original SVG favicon.
+The website uses only original local HTML, CSS, JavaScript, and SVG. It does not redistribute source code or media from another academic project page.

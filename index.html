@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Public preview of a robotics research paper website. Final paper details and media are pending.">
+  <meta name="description" content="PASDP distributes diffusion-policy action refinement across closed-loop control cycles for low-latency robotic manipulation.">
   <meta name="theme-color" content="#f4f3ef">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Robotics Paper — Public Preview">
-  <meta property="og:description" content="A media-free preview of a robotics research project page.">
-  <title>Robotics Paper — Public Preview</title>
+  <meta property="og:title" content="PASDP — Position-Aware Streaming Diffusion Policy">
+  <meta property="og:description" content="A media-free manuscript preview for low-latency streaming robot control.">
+  <title>PASDP — Position-Aware Streaming Diffusion Policy</title>
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
@@ -31,17 +31,14 @@
   <main id="main">
     <section class="hero" id="top" aria-labelledby="paper-title">
       <div class="hero-copy">
-        <p class="kicker"><span>Public preview</span> · Robotics research</p>
-        <h1 id="paper-title">Your Robotics Paper Title Goes Here</h1>
-        <p class="dek">Add one precise sentence that states the task, the technical idea, and the most important result.</p>
+        <p class="kicker"><span>Manuscript preview</span> · Streaming robot control</p>
+        <h1 id="paper-title">PASDP: Position-Aware Streaming Diffusion Policy</h1>
+        <p class="dek">Distributing action refinement across closed-loop control cycles for low-latency robotic manipulation.</p>
 
         <div class="authors" aria-label="Paper authors">
-          <span>Author One<sup>1</sup></span>
-          <span>Author Two<sup>1</sup></span>
-          <span>Author Three<sup>2</sup></span>
+          <span>Authors and affiliations to be added</span>
         </div>
-        <p class="affiliations"><sup>1</sup> Institution One &nbsp;·&nbsp; <sup>2</sup> Institution Two</p>
-        <p class="venue">Conference or journal · 2026</p>
+        <p class="venue">Manuscript prepared for IEEE Transactions on Industrial Electronics · 2026</p>
 
         <div class="resource-row" aria-label="Project resources">
           <span class="resource is-pending" aria-disabled="true">Paper <small>pending</small></span>
@@ -52,40 +49,42 @@
       </div>
 
       <aside class="release-note" aria-label="Preview status">
-        <div class="release-index">PREVIEW / 01</div>
-        <h2>Structure first.<br>Media next.</h2>
-        <p>This build is intentionally video-free so the layout, hierarchy, and paper narrative can be reviewed before large assets are uploaded.</p>
+        <div class="release-index">MANUSCRIPT / V12</div>
+        <h2>One evaluation.<br>Continuous refinement.</h2>
+        <p>PASDP keeps a persistent action buffer. Each control cycle shifts the buffer, appends Gaussian noise, and re-predicts every unexecuted action from the latest observation.</p>
         <dl>
-          <div><dt>Page</dt><dd>Ready to review</dd></div>
-          <div><dt>Media</dt><dd>Not uploaded</dd></div>
-          <div><dt>Links</dt><dd>Placeholders</dd></div>
+          <div><dt>Per inference</dt><dd>NFE = 1</dd></div>
+          <div><dt>Simulation</dt><dd>18 ms</dd></div>
+          <div><dt>Real robot</dt><dd>11 ms</dd></div>
         </dl>
       </aside>
     </section>
 
     <section class="media-stage" aria-labelledby="preview-heading">
-      <div class="trajectory" aria-hidden="true">
-        <svg viewBox="0 0 1200 420" preserveAspectRatio="none">
-          <path class="path-shadow" d="M-40 360 C160 310 180 90 400 120 S690 350 860 190 S1080 45 1250 90"/>
-          <path class="path-main" d="M-40 360 C160 310 180 90 400 120 S690 350 860 190 S1080 45 1250 90"/>
-          <circle cx="401" cy="120" r="10"/>
-          <circle cx="859" cy="190" r="10"/>
-        </svg>
+      <div class="buffer-visual" aria-label="Conceptual PASDP sliding action buffer">
+        <div class="buffer-direction">execution head <span>shift each cycle →</span> distal tail</div>
+        <ol class="buffer-lane">
+          <li class="buffer-head"><small>execute</small><strong>a<sub>0</sub></strong></li>
+          <li><small>refine</small><strong>a<sub>1</sub></strong></li>
+          <li><small>refine</small><strong>a<sub>2</sub></strong></li>
+          <li><small>refine</small><strong>···</strong></li>
+          <li class="buffer-tail"><small>append</small><strong>z ~ N</strong></li>
+        </ol>
+        <div class="buffer-update"><span>latest observation</span><b>one network evaluation</b><span>complete buffer update</span></div>
       </div>
       <div class="media-label">
-        <span>01 / Project preview</span>
-        <h2 id="preview-heading">Hero media will appear here after review.</h2>
-        <p>Recommended later: one concise MP4/WebM loop showing the core robot behavior, with a poster image and accessible caption.</p>
+        <span>Sliding-buffer inference</span>
+        <h2 id="preview-heading">Refine future actions as execution approaches.</h2>
+        <p>The final video will be added only after this manuscript-grounded structure is reviewed.</p>
       </div>
-      <div class="axis-label axis-x">task progression →</div>
-      <div class="axis-label axis-y">control signal</div>
     </section>
 
     <section class="paper-section abstract-section" id="abstract" aria-labelledby="abstract-heading">
       <div class="section-label"><span>02</span> Abstract</div>
       <div class="section-body prose">
-        <h2 id="abstract-heading">State the problem, insight, and evidence in one clear arc.</h2>
-        <p class="placeholder-copy">Replace this paragraph with the final abstract. A strong project-page abstract should establish the robotics problem, explain why existing approaches are insufficient, introduce the proposed method without unnecessary notation, and close with the most decision-relevant experimental results.</p>
+        <h2 id="abstract-heading">Low-latency diffusion control through cross-cycle refinement.</h2>
+        <p class="placeholder-copy">Diffusion policies model multimodal action distributions effectively, but iterative denoising can introduce substantial latency in closed-loop robotic manipulation. PASDP distributes action generation and updating across successive control cycles. During training, it applies stronger Gaussian corruption to distal action positions, near-clean inputs to proximal positions, and greater objective weight to actions closer to execution. During inference, a sliding action buffer removes the executed action, appends Gaussian noise at the distal end, and re-predicts the complete buffer from the latest observation.</p>
+        <p>Each policy inference uses one network evaluation, while a future execution slot can be updated over multiple cycles before reaching the buffer head. Across 10 Robomimic tasks, PASDP reduced policy-inference latency by more than one order of magnitude while maintaining competitive average success. On two real-world conveyor-manipulation tasks, it achieved 11 ms inference latency and improved task-completion outcomes over Diffusion Policy under the evaluated conditions.</p>
       </div>
     </section>
 
@@ -95,23 +94,23 @@
         <div class="section-heading-row">
           <div>
             <p class="eyebrow">System overview</p>
-            <h2 id="method-heading">A three-stage story readers can scan.</h2>
+            <h2 id="method-heading">Position organizes both training and control.</h2>
           </div>
-          <p>Replace these labels with the actual stages of your system. Keep the diagram causal: every arrow should communicate what changes next.</p>
+          <p>A buffer position encodes how long remains before execution: distal actions start under stronger corruption and are repeatedly updated as they move toward the head.</p>
         </div>
 
         <ol class="method-rail">
           <li>
-            <span class="step-number">01</span>
-            <div><h3>Observe</h3><p>Describe the sensors, observations, or demonstrations available to the system.</p></div>
+            <span class="step-number">TRAIN / INPUT</span>
+            <div><h3>Position-dependent corruption</h3><p>Distal positions receive stronger Gaussian corruption; the final position receives pure noise.</p></div>
           </li>
           <li>
-            <span class="step-number">02</span>
-            <div><h3>Infer</h3><p>Summarize the model, representation, or planning mechanism at the center of the work.</p></div>
+            <span class="step-number">TRAIN / LOSS</span>
+            <div><h3>Position-weighted objective</h3><p>Actions closer to execution receive greater loss weight because they immediately determine robot motion.</p></div>
           </li>
           <li>
-            <span class="step-number">03</span>
-            <div><h3>Act</h3><p>Explain how predictions become closed-loop robot behavior in the target environment.</p></div>
+            <span class="step-number">CONTROL / LOOP</span>
+            <div><h3>Streaming refinement</h3><p>The buffer shifts after execution, receives noise at its tail, and is re-predicted once from the latest observation.</p></div>
           </li>
         </ol>
       </div>
@@ -123,27 +122,27 @@
         <div class="section-heading-row">
           <div>
             <p class="eyebrow">Evidence plan</p>
-            <h2 id="evaluation-heading">Reserve every media slot before uploading files.</h2>
+            <h2 id="evaluation-heading">Competitive success at a fraction of the latency.</h2>
           </div>
-          <p>Each slot below can later accept a figure, video, or compact quantitative result without changing the page structure.</p>
+          <p>Results shown here are taken from the supplied v12 manuscript. Final figures and videos remain intentionally absent.</p>
         </div>
 
         <div class="evidence-grid">
           <article class="evidence-card">
-            <div class="media-placeholder" aria-label="Simulation media placeholder"><span>MEDIA / A</span></div>
-            <div class="evidence-copy"><h3>Simulation</h3><p>Primary benchmark, environment coverage, and the main comparison.</p></div>
+            <div class="result-panel"><strong>77.0<small>%</small></strong><span>average success</span></div>
+            <div class="evidence-copy"><h3>10 Robomimic tasks</h3><p>PASDP at 18 ms versus Diffusion Policy at 75.9% and 261 ms under the reported H = 40 comparison.</p></div>
           </article>
           <article class="evidence-card">
-            <div class="media-placeholder" aria-label="Real robot media placeholder"><span>MEDIA / B</span></div>
-            <div class="evidence-copy"><h3>Real robot</h3><p>Hardware setup, task diversity, and representative successful behavior.</p></div>
+            <div class="result-panel"><strong>11<small> ms</small></strong><span>real-robot inference</span></div>
+            <div class="evidence-copy"><h3>Sequential conveyor picking</h3><p>Four subtasks completed at 2× and 4× execution; the reported 4× task time is 25 s.</p></div>
           </article>
           <article class="evidence-card">
-            <div class="media-placeholder" aria-label="Ablation media placeholder"><span>MEDIA / C</span></div>
-            <div class="evidence-copy"><h3>Ablation</h3><p>Evidence that isolates the contribution of each technical component.</p></div>
+            <div class="result-panel"><strong>10.8</strong><span>objects / 10 successes</span></div>
+            <div class="evidence-copy"><h3>Continuous pick-and-place</h3><p>PASDP requires 10.8 objects on average, compared with 32.5 for Diffusion Policy.</p></div>
           </article>
           <article class="evidence-card">
-            <div class="media-placeholder" aria-label="Efficiency media placeholder"><span>MEDIA / D</span></div>
-            <div class="evidence-copy"><h3>Efficiency</h3><p>Runtime, data, compute, or deployment cost that matters in practice.</p></div>
+            <div class="result-panel"><strong>1<small> NFE</small></strong><span>per policy inference</span></div>
+            <div class="evidence-copy"><h3>Cross-cycle computation</h3><p>Future slots can be re-predicted over several control cycles before reaching the execution head.</p></div>
           </article>
         </div>
       </div>
@@ -155,15 +154,15 @@
         <div class="section-heading-row">
           <div>
             <p class="eyebrow">BibTeX</p>
-            <h2 id="citation-heading">Add the archival record when it is final.</h2>
+            <h2 id="citation-heading">Bibliographic metadata is not yet complete.</h2>
           </div>
           <button class="copy-button" type="button" data-copy-target="bibtex">Copy citation</button>
         </div>
-        <pre id="bibtex"><code>@article{yourpaper2026,
-  title   = {Your Robotics Paper Title Goes Here},
-  author  = {Author One and Author Two and Author Three},
-  journal = {Conference or Journal},
-  year    = {2026}
+        <pre id="bibtex"><code>@article{pasdp2026,
+  title  = {Position-Aware Streaming Diffusion Policy},
+  author = {Authors to be added},
+  year   = {2026},
+  note   = {Manuscript metadata pending}
 }</code></pre>
         <p class="copy-status" aria-live="polite"></p>
       </div>
@@ -173,11 +172,11 @@
   <footer>
     <div>
       <span class="footer-label">Project contact</span>
-      <p>Replace with a corresponding-author email before publication.</p>
+      <p>Corresponding-author details will be added before the formal release.</p>
     </div>
     <div class="footer-meta">
-      <span>Media-free preview</span>
-      <span>Last structured 2026</span>
+      <span>Source: manuscript v12</span>
+      <span>Video-free preview</span>
     </div>
   </footer>
 
