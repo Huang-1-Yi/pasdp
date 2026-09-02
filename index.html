@@ -96,6 +96,49 @@
       <h4>Simulation Experiments</h4>
       <p>Experiments are conducted on 10 Robomimic tasks. Under the reported common prediction horizon of H = 40, PASDP achieves an average success rate of 77.0% with an inference latency of approximately 18 ms. Diffusion Policy achieves an average success rate of 75.9% with an inference latency of 261 ms.</p>
 
+      <div class="simulation-task-grid" aria-label="PASDP success rates across 10 simulation tasks">
+        <article class="simulation-task" style="--success-rate: 100%" aria-label="Coffee: 100 percent success rate">
+          <div class="simulation-task-result"><strong>100%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Coffee</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 90%" aria-label="Threading: 90 percent success rate">
+          <div class="simulation-task-result"><strong>90%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Threading</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 33%" aria-label="Pick Place: 33 percent success rate">
+          <div class="simulation-task-result"><strong>33%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Pick Place</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 91%" aria-label="Coffee Preparation: 91 percent success rate">
+          <div class="simulation-task-result"><strong>91%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Coffee Preparation</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 100%" aria-label="Hammer Cleanup: 100 percent success rate">
+          <div class="simulation-task-result"><strong>100%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Hammer Cleanup</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 97%" aria-label="Square: 97 percent success rate">
+          <div class="simulation-task-result"><strong>97%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Square</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 98%" aria-label="Stack: 98 percent success rate">
+          <div class="simulation-task-result"><strong>98%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Stack</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 43%" aria-label="Stack Three: 43 percent success rate">
+          <div class="simulation-task-result"><strong>43%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Stack Three</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 54%" aria-label="Nut Assembly: 54 percent success rate">
+          <div class="simulation-task-result"><strong>54%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Nut Assembly</h5>
+        </article>
+        <article class="simulation-task" style="--success-rate: 64%" aria-label="Three-Piece Assembly: 64 percent success rate">
+          <div class="simulation-task-result"><strong>64%</strong><span>PASDP success rate</span><i aria-hidden="true"></i></div>
+          <h5>Three-Piece Assembly</h5>
+        </article>
+      </div>
+
       <div class="table-wrap" tabindex="0" role="region" aria-label="Simulation performance table">
         <table>
           <caption>Performance comparison on 10 Robomimic tasks at H = 40</caption>
@@ -137,12 +180,6 @@
         </table>
       </div>
       <p class="table-note">Success rates are percentages. C. = Coffee; T. = Threading; P.P. = Pick Place; C.P. = Coffee Preparation; H.C. = Hammer Cleanup; Sq. = Square; St. = Stack; S.T. = Stack Three; N.A. = Nut Assembly; T.P.A. = Three-Piece Assembly.</p>
-
-      <div class="result-grid three-columns">
-        <div class="media-placeholder">Result figure to be added</div>
-        <div class="media-placeholder">Result figure to be added</div>
-        <div class="media-placeholder">Result figure to be added</div>
-      </div>
 
       <h4>Real-World Experiments</h4>
       <p>The real-world experiments evaluate dynamic conveyor-belt manipulation. PASDP maintains an inference latency of approximately 11 ms across the reported execution settings.</p>
