@@ -6,6 +6,10 @@ The page structure and scale follow the requested academic-project-page baseline
 
 The text and reported results are based on manuscript v12. Missing paper assets, videos, author details, affiliations, links, BibTeX, acknowledgements, and contact details remain plainly marked as items to be added.
 
+Codebase: <https://gitee.com/huang-1-yi/dp_pro6000.git>
+
+See `videos/README.md` for video preparation, naming, and HTML integration instructions.
+
 ## Local preview
 
 From this directory, run:

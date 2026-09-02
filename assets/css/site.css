@@ -103,6 +103,13 @@ a:focus-visible {
   border-bottom-color: transparent;
 }
 
+video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000000;
+}
+
 hr {
   margin: 2em 0;
   border: 0;
