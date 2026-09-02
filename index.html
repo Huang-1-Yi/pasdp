@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public preview of a robotics research paper website. Final paper details and media are pending.">
+  <meta name="theme-color" content="#f4f3ef">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Robotics Paper — Public Preview">
+  <meta property="og:description" content="A media-free preview of a robotics research project page.">
+  <title>Robotics Paper — Public Preview</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Robotics paper preview home">
+      <span class="wordmark-mark" aria-hidden="true"></span>
+      <span>ROBOTICS / PAPER</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#evaluation">Evaluation</a>
+      <a href="#citation">Cite</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="paper-title">
+      <div class="hero-copy">
+        <p class="kicker"><span>Public preview</span> · Robotics research</p>
+        <h1 id="paper-title">Your Robotics Paper Title Goes Here</h1>
+        <p class="dek">Add one precise sentence that states the task, the technical idea, and the most important result.</p>
+
+        <div class="authors" aria-label="Paper authors">
+          <span>Author One<sup>1</sup></span>
+          <span>Author Two<sup>1</sup></span>
+          <span>Author Three<sup>2</sup></span>
+        </div>
+        <p class="affiliations"><sup>1</sup> Institution One &nbsp;·&nbsp; <sup>2</sup> Institution Two</p>
+        <p class="venue">Conference or journal · 2026</p>
+
+        <div class="resource-row" aria-label="Project resources">
+          <span class="resource is-pending" aria-disabled="true">Paper <small>pending</small></span>
+          <span class="resource is-pending" aria-disabled="true">arXiv <small>pending</small></span>
+          <span class="resource is-pending" aria-disabled="true">Code <small>pending</small></span>
+          <span class="resource is-pending" aria-disabled="true">Video <small>after review</small></span>
+        </div>
+      </div>
+
+      <aside class="release-note" aria-label="Preview status">
+        <div class="release-index">PREVIEW / 01</div>
+        <h2>Structure first.<br>Media next.</h2>
+        <p>This build is intentionally video-free so the layout, hierarchy, and paper narrative can be reviewed before large assets are uploaded.</p>
+        <dl>
+          <div><dt>Page</dt><dd>Ready to review</dd></div>
+          <div><dt>Media</dt><dd>Not uploaded</dd></div>
+          <div><dt>Links</dt><dd>Placeholders</dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="media-stage" aria-labelledby="preview-heading">
+      <div class="trajectory" aria-hidden="true">
+        <svg viewBox="0 0 1200 420" preserveAspectRatio="none">
+          <path class="path-shadow" d="M-40 360 C160 310 180 90 400 120 S690 350 860 190 S1080 45 1250 90"/>
+          <path class="path-main" d="M-40 360 C160 310 180 90 400 120 S690 350 860 190 S1080 45 1250 90"/>
+          <circle cx="401" cy="120" r="10"/>
+          <circle cx="859" cy="190" r="10"/>
+        </svg>
+      </div>
+      <div class="media-label">
+        <span>01 / Project preview</span>
+        <h2 id="preview-heading">Hero media will appear here after review.</h2>
+        <p>Recommended later: one concise MP4/WebM loop showing the core robot behavior, with a poster image and accessible caption.</p>
+      </div>
+      <div class="axis-label axis-x">task progression →</div>
+      <div class="axis-label axis-y">control signal</div>
+    </section>
+
+    <section class="paper-section abstract-section" id="abstract" aria-labelledby="abstract-heading">
+      <div class="section-label"><span>02</span> Abstract</div>
+      <div class="section-body prose">
+        <h2 id="abstract-heading">State the problem, insight, and evidence in one clear arc.</h2>
+        <p class="placeholder-copy">Replace this paragraph with the final abstract. A strong project-page abstract should establish the robotics problem, explain why existing approaches are insufficient, introduce the proposed method without unnecessary notation, and close with the most decision-relevant experimental results.</p>
+      </div>
+    </section>
+
+    <section class="paper-section" id="method" aria-labelledby="method-heading">
+      <div class="section-label"><span>03</span> Method</div>
+      <div class="section-body">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">System overview</p>
+            <h2 id="method-heading">A three-stage story readers can scan.</h2>
+          </div>
+          <p>Replace these labels with the actual stages of your system. Keep the diagram causal: every arrow should communicate what changes next.</p>
+        </div>
+
+        <ol class="method-rail">
+          <li>
+            <span class="step-number">01</span>
+            <div><h3>Observe</h3><p>Describe the sensors, observations, or demonstrations available to the system.</p></div>
+          </li>
+          <li>
+            <span class="step-number">02</span>
+            <div><h3>Infer</h3><p>Summarize the model, representation, or planning mechanism at the center of the work.</p></div>
+          </li>
+          <li>
+            <span class="step-number">03</span>
+            <div><h3>Act</h3><p>Explain how predictions become closed-loop robot behavior in the target environment.</p></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="paper-section" id="evaluation" aria-labelledby="evaluation-heading">
+      <div class="section-label"><span>04</span> Evaluation</div>
+      <div class="section-body">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">Evidence plan</p>
+            <h2 id="evaluation-heading">Reserve every media slot before uploading files.</h2>
+          </div>
+          <p>Each slot below can later accept a figure, video, or compact quantitative result without changing the page structure.</p>
+        </div>
+
+        <div class="evidence-grid">
+          <article class="evidence-card">
+            <div class="media-placeholder" aria-label="Simulation media placeholder"><span>MEDIA / A</span></div>
+            <div class="evidence-copy"><h3>Simulation</h3><p>Primary benchmark, environment coverage, and the main comparison.</p></div>
+          </article>
+          <article class="evidence-card">
+            <div class="media-placeholder" aria-label="Real robot media placeholder"><span>MEDIA / B</span></div>
+            <div class="evidence-copy"><h3>Real robot</h3><p>Hardware setup, task diversity, and representative successful behavior.</p></div>
+          </article>
+          <article class="evidence-card">
+            <div class="media-placeholder" aria-label="Ablation media placeholder"><span>MEDIA / C</span></div>
+            <div class="evidence-copy"><h3>Ablation</h3><p>Evidence that isolates the contribution of each technical component.</p></div>
+          </article>
+          <article class="evidence-card">
+            <div class="media-placeholder" aria-label="Efficiency media placeholder"><span>MEDIA / D</span></div>
+            <div class="evidence-copy"><h3>Efficiency</h3><p>Runtime, data, compute, or deployment cost that matters in practice.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-section citation-section" id="citation" aria-labelledby="citation-heading">
+      <div class="section-label"><span>05</span> Citation</div>
+      <div class="section-body">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">BibTeX</p>
+            <h2 id="citation-heading">Add the archival record when it is final.</h2>
+          </div>
+          <button class="copy-button" type="button" data-copy-target="bibtex">Copy citation</button>
+        </div>
+        <pre id="bibtex"><code>@article{yourpaper2026,
+  title   = {Your Robotics Paper Title Goes Here},
+  author  = {Author One and Author Two and Author Three},
+  journal = {Conference or Journal},
+  year    = {2026}
+}</code></pre>
+        <p class="copy-status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <span class="footer-label">Project contact</span>
+      <p>Replace with a corresponding-author email before publication.</p>
+    </div>
+    <div class="footer-meta">
+      <span>Media-free preview</span>
+      <span>Last structured 2026</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js"></script>
+</body>
+</html>
