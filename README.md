@@ -1,8 +1,10 @@
-# PASDP — Public Preview
+# PASDP Project Page
 
 A dependency-free static project page for **Position-Aware Streaming Diffusion Policy (PASDP)**, prepared for GitHub Pages.
 
-The text and reported results are based on manuscript v12. This preview intentionally contains no paper PDF, experiment videos, final author details, or active resource links. Review and complete the metadata before announcing it publicly.
+The page structure and scale follow the requested academic-project-page baseline. The implementation is original and does not include source code or media copied from the reference site.
+
+The text and reported results are based on manuscript v12. Missing paper assets, videos, author details, affiliations, links, BibTeX, acknowledgements, and contact details remain plainly marked as items to be added.
 
 ## Local preview
 
@@ -21,4 +23,4 @@ Then open `http://localhost:8000/`.
 - Keep large source footage outside the repository.
 - Confirm that every uploaded asset is owned by the project or licensed for redistribution.
 
-The website uses only original local HTML, CSS, JavaScript, and SVG. It does not redistribute source code or media from another academic project page.
+The website uses only original local HTML, CSS, and SVG. No external runtime dependencies are required.

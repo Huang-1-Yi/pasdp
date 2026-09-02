@@ -1,185 +1,135 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="PASDP distributes diffusion-policy action refinement across closed-loop control cycles for low-latency robotic manipulation.">
-  <meta name="theme-color" content="#f4f3ef">
+  <meta name="description" content="Project page for Position-Aware Streaming Diffusion Policy (PASDP).">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="PASDP — Position-Aware Streaming Diffusion Policy">
-  <meta property="og:description" content="A media-free manuscript preview for low-latency streaming robot control.">
-  <title>PASDP — Position-Aware Streaming Diffusion Policy</title>
+  <meta property="og:title" content="Position-Aware Streaming Diffusion Policy">
+  <meta property="og:description" content="PASDP for real-time robotic manipulation.">
+  <title>Position-Aware Streaming Diffusion Policy</title>
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="Robotics paper preview home">
-      <span class="wordmark-mark" aria-hidden="true"></span>
-      <span>ROBOTICS / PAPER</span>
-    </a>
-    <nav aria-label="Primary navigation">
-      <a href="#abstract">Abstract</a>
-      <a href="#method">Method</a>
-      <a href="#evaluation">Evaluation</a>
-      <a href="#citation">Cite</a>
-    </nav>
-  </header>
-
+<body id="top">
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="paper-title">
-      <div class="hero-copy">
-        <p class="kicker"><span>Manuscript preview</span> · Streaming robot control</p>
-        <h1 id="paper-title">PASDP: Position-Aware Streaming Diffusion Policy</h1>
-        <p class="dek">Distributing action refinement across closed-loop control cycles for low-latency robotic manipulation.</p>
+    <header class="paper-header">
+      <h1>Position-Aware Streaming Diffusion Policy</h1>
+      <h2>for Real-Time Robotic Manipulation</h2>
+      <p class="authors">Authors to be added</p>
+      <p class="affiliations">Affiliations to be added</p>
+    </header>
 
-        <div class="authors" aria-label="Paper authors">
-          <span>Authors and affiliations to be added</span>
-        </div>
-        <p class="venue">Manuscript prepared for IEEE Transactions on Industrial Electronics · 2026</p>
-
-        <div class="resource-row" aria-label="Project resources">
-          <span class="resource is-pending" aria-disabled="true">Paper <small>pending</small></span>
-          <span class="resource is-pending" aria-disabled="true">arXiv <small>pending</small></span>
-          <span class="resource is-pending" aria-disabled="true">Code <small>pending</small></span>
-          <span class="resource is-pending" aria-disabled="true">Video <small>after review</small></span>
-        </div>
+    <section aria-label="Project video placeholders">
+      <div class="teaser-labels">
+        <div>Simulation Experiments</div>
+        <div>Real-World Conveyor Manipulation</div>
       </div>
-
-      <aside class="release-note" aria-label="Preview status">
-        <div class="release-index">MANUSCRIPT / V12</div>
-        <h2>One evaluation.<br>Continuous refinement.</h2>
-        <p>PASDP keeps a persistent action buffer. Each control cycle shifts the buffer, appends Gaussian noise, and re-predicts every unexecuted action from the latest observation.</p>
-        <dl>
-          <div><dt>Per inference</dt><dd>NFE = 1</dd></div>
-          <div><dt>Simulation</dt><dd>18 ms</dd></div>
-          <div><dt>Real robot</dt><dd>11 ms</dd></div>
-        </dl>
-      </aside>
-    </section>
-
-    <section class="media-stage" aria-labelledby="preview-heading">
-      <div class="buffer-visual" aria-label="Conceptual PASDP sliding action buffer">
-        <div class="buffer-direction">execution head <span>shift each cycle →</span> distal tail</div>
-        <ol class="buffer-lane">
-          <li class="buffer-head"><small>execute</small><strong>a<sub>0</sub></strong></li>
-          <li><small>refine</small><strong>a<sub>1</sub></strong></li>
-          <li><small>refine</small><strong>a<sub>2</sub></strong></li>
-          <li><small>refine</small><strong>···</strong></li>
-          <li class="buffer-tail"><small>append</small><strong>z ~ N</strong></li>
-        </ol>
-        <div class="buffer-update"><span>latest observation</span><b>one network evaluation</b><span>complete buffer update</span></div>
-      </div>
-      <div class="media-label">
-        <span>Sliding-buffer inference</span>
-        <h2 id="preview-heading">Refine future actions as execution approaches.</h2>
-        <p>The final video will be added only after this manuscript-grounded structure is reviewed.</p>
+      <div class="teaser-grid">
+        <div class="media-placeholder">Video to be added</div>
+        <div class="media-placeholder">Video to be added</div>
+        <div class="media-placeholder">Video to be added</div>
+        <div class="media-placeholder">Video to be added</div>
+        <div class="media-placeholder">Video to be added</div>
+        <div class="media-placeholder">Video to be added</div>
       </div>
     </section>
 
-    <section class="paper-section abstract-section" id="abstract" aria-labelledby="abstract-heading">
-      <div class="section-label"><span>02</span> Abstract</div>
-      <div class="section-body prose">
-        <h2 id="abstract-heading">Low-latency diffusion control through cross-cycle refinement.</h2>
-        <p class="placeholder-copy">Diffusion policies model multimodal action distributions effectively, but iterative denoising can introduce substantial latency in closed-loop robotic manipulation. PASDP distributes action generation and updating across successive control cycles. During training, it applies stronger Gaussian corruption to distal action positions, near-clean inputs to proximal positions, and greater objective weight to actions closer to execution. During inference, a sliding action buffer removes the executed action, appends Gaussian noise at the distal end, and re-predicts the complete buffer from the latest observation.</p>
-        <p>Each policy inference uses one network evaluation, while a future execution slot can be updated over multiple cycles before reaching the buffer head. Across 10 Robomimic tasks, PASDP reduced policy-inference latency by more than one order of magnitude while maintaining competitive average success. On two real-world conveyor-manipulation tasks, it achieved 11 ms inference latency and improved task-completion outcomes over Diffusion Policy under the evaluated conditions.</p>
-      </div>
+    <section aria-label="Abstract">
+      <p class="abstract">Diffusion policies model multimodal action distributions effectively, but their iterative denoising process can introduce substantial latency in closed-loop robotic manipulation. Continuous control offers a different allocation of this computation: the next action must be available immediately, whereas later actions can be updated after new observations arrive. We therefore propose the Position-Aware Streaming Diffusion Policy (PASDP), which distributes action generation and updating across successive control cycles. During training, PASDP applies stronger Gaussian corruption to distal action positions and near-clean inputs to proximal positions. A position-weighted objective assigns greater importance to actions closer to execution. During inference, PASDP maintains a sliding action buffer. Each control cycle removes the executed action, appends Gaussian noise at the distal end, and re-predicts the complete buffer from the latest observation. One network evaluation thus generates a new distal action and updates the unexecuted predictions carried from the previous cycle. Each policy inference uses one network evaluation, while a future execution slot can be updated over multiple cycles before reaching the buffer head. On 10 Robomimic tasks, PASDP reduced policy-inference latency by more than one order of magnitude while maintaining competitive average success. On two real-world conveyor-manipulation tasks, it achieved an inference latency of 11 ms and improved task-completion outcomes over Diffusion Policy under the evaluated conditions.</p>
     </section>
 
-    <section class="paper-section" id="method" aria-labelledby="method-heading">
-      <div class="section-label"><span>03</span> Method</div>
-      <div class="section-body">
-        <div class="section-heading-row">
-          <div>
-            <p class="eyebrow">System overview</p>
-            <h2 id="method-heading">Position organizes both training and control.</h2>
-          </div>
-          <p>A buffer position encodes how long remains before execution: distal actions start under stronger corruption and are repeatedly updated as they move toward the head.</p>
-        </div>
+    <hr>
 
-        <ol class="method-rail">
-          <li>
-            <span class="step-number">TRAIN / INPUT</span>
-            <div><h3>Position-dependent corruption</h3><p>Distal positions receive stronger Gaussian corruption; the final position receives pure noise.</p></div>
-          </li>
-          <li>
-            <span class="step-number">TRAIN / LOSS</span>
-            <div><h3>Position-weighted objective</h3><p>Actions closer to execution receive greater loss weight because they immediately determine robot motion.</p></div>
-          </li>
-          <li>
-            <span class="step-number">CONTROL / LOOP</span>
-            <div><h3>Streaming refinement</h3><p>The buffer shifts after execution, receives noise at its tail, and is re-predicted once from the latest observation.</p></div>
-          </li>
-        </ol>
-      </div>
+    <section id="paper">
+      <h3>Paper</h3>
+      <p>Paper link to be added.</p>
+      <div class="wide-placeholder">Paper preview to be added</div>
     </section>
 
-    <section class="paper-section" id="evaluation" aria-labelledby="evaluation-heading">
-      <div class="section-label"><span>04</span> Evaluation</div>
-      <div class="section-body">
-        <div class="section-heading-row">
-          <div>
-            <p class="eyebrow">Evidence plan</p>
-            <h2 id="evaluation-heading">Competitive success at a fraction of the latency.</h2>
-          </div>
-          <p>Results shown here are taken from the supplied v12 manuscript. Final figures and videos remain intentionally absent.</p>
-        </div>
-
-        <div class="evidence-grid">
-          <article class="evidence-card">
-            <div class="result-panel"><strong>77.0<small>%</small></strong><span>average success</span></div>
-            <div class="evidence-copy"><h3>10 Robomimic tasks</h3><p>PASDP at 18 ms versus Diffusion Policy at 75.9% and 261 ms under the reported H = 40 comparison.</p></div>
-          </article>
-          <article class="evidence-card">
-            <div class="result-panel"><strong>11<small> ms</small></strong><span>real-robot inference</span></div>
-            <div class="evidence-copy"><h3>Sequential conveyor picking</h3><p>Four subtasks completed at 2× and 4× execution; the reported 4× task time is 25 s.</p></div>
-          </article>
-          <article class="evidence-card">
-            <div class="result-panel"><strong>10.8</strong><span>objects / 10 successes</span></div>
-            <div class="evidence-copy"><h3>Continuous pick-and-place</h3><p>PASDP requires 10.8 objects on average, compared with 32.5 for Diffusion Policy.</p></div>
-          </article>
-          <article class="evidence-card">
-            <div class="result-panel"><strong>1<small> NFE</small></strong><span>per policy inference</span></div>
-            <div class="evidence-copy"><h3>Cross-cycle computation</h3><p>Future slots can be re-predicted over several control cycles before reaching the execution head.</p></div>
-          </article>
-        </div>
-      </div>
+    <section id="code">
+      <h3>Code and Tutorial</h3>
+      <p>
+        Code link to be added.<br>
+        Tutorial to be added.
+      </p>
     </section>
 
-    <section class="paper-section citation-section" id="citation" aria-labelledby="citation-heading">
-      <div class="section-label"><span>05</span> Citation</div>
-      <div class="section-body">
-        <div class="section-heading-row">
-          <div>
-            <p class="eyebrow">BibTeX</p>
-            <h2 id="citation-heading">Bibliographic metadata is not yet complete.</h2>
-          </div>
-          <button class="copy-button" type="button" data-copy-target="bibtex">Copy citation</button>
-        </div>
-        <pre id="bibtex"><code>@article{pasdp2026,
-  title  = {Position-Aware Streaming Diffusion Policy},
-  author = {Authors to be added},
-  year   = {2026},
-  note   = {Manuscript metadata pending}
-}</code></pre>
-        <p class="copy-status" aria-live="polite"></p>
+    <hr>
+
+    <section id="team">
+      <h3>Team</h3>
+      <p>
+        Authors to be added.<br>
+        Affiliations to be added.
+      </p>
+    </section>
+
+    <section id="citation">
+      <h3>BibTeX</h3>
+      <pre><code>BibTeX to be added.</code></pre>
+    </section>
+
+    <hr>
+
+    <section id="method">
+      <h3>Position-Aware Streaming Diffusion Policy</h3>
+      <p>PASDP uses the action position to organize both training and closed-loop inference. During training, the corruption level decreases from the buffer tail to the execution head. During inference, the same ordering is used in a persistent action buffer. A future execution slot enters at the tail and is re-predicted after each buffer shift until it reaches the head.</p>
+
+      <div class="wide-placeholder">Method figure to be added</div>
+
+      <h4>Position-Dependent Corruption</h4>
+      <p>In the standard N = 1 mode, the position index specifies both the order within the prediction horizon and the number of buffer shifts remaining before execution. Distal positions receive stronger Gaussian corruption, while the final position receives pure Gaussian noise.</p>
+
+      <h4>Position-Weighted Objective</h4>
+      <p>Proximal actions directly determine the next robot motion. Distal predictions remain in the buffer and can be updated before execution. PASDP therefore assigns greater loss weight to positions near the execution head.</p>
+
+      <h4>Sliding-Buffer Streaming Inference</h4>
+      <p>After executing the head action, PASDP shifts the remaining predictions toward the buffer head and appends Gaussian noise at the tail. The network then re-predicts the complete buffer once from the latest observation. One policy inference contains one network evaluation.</p>
+    </section>
+
+    <hr>
+
+    <section id="experiments">
+      <h3>Experiments</h3>
+
+      <h4>Simulation Experiments</h4>
+      <p>Experiments are conducted on 10 Robomimic tasks. Under the reported common prediction horizon of H = 40, PASDP achieves an average success rate of 77.0% with an inference latency of approximately 18 ms. Diffusion Policy achieves an average success rate of 75.9% with an inference latency of 261 ms.</p>
+      <div class="result-grid three-columns">
+        <div class="media-placeholder">Result figure to be added</div>
+        <div class="media-placeholder">Result figure to be added</div>
+        <div class="media-placeholder">Result figure to be added</div>
       </div>
+
+      <h4>Real-World Experiments</h4>
+      <p>The real-world experiments evaluate dynamic conveyor-belt manipulation. PASDP maintains an inference latency of approximately 11 ms across the reported execution settings.</p>
+      <div class="result-grid two-columns">
+        <div>
+          <div class="media-placeholder">Task 1 video to be added</div>
+          <p class="caption">Sequential Conveyor Picking</p>
+        </div>
+        <div>
+          <div class="media-placeholder">Task 2 video to be added</div>
+          <p class="caption">Continuous Pick-and-Place</p>
+        </div>
+      </div>
+
+      <h4>Parameter Sensitivity</h4>
+      <p>Parameter-sensitivity results for the position-weighting coefficient and prediction horizon are reported in the manuscript.</p>
+      <div class="wide-placeholder">Ablation figure to be added</div>
+    </section>
+
+    <hr>
+
+    <section id="acknowledgements">
+      <h3>Acknowledgements</h3>
+      <p>Acknowledgements to be added.</p>
+    </section>
+
+    <section id="contact">
+      <h3>Contact</h3>
+      <p>Contact information to be added.</p>
     </section>
   </main>
-
-  <footer>
-    <div>
-      <span class="footer-label">Project contact</span>
-      <p>Corresponding-author details will be added before the formal release.</p>
-    </div>
-    <div class="footer-meta">
-      <span>Source: manuscript v12</span>
-      <span>Video-free preview</span>
-    </div>
-  </footer>
-
-  <script src="assets/js/site.js"></script>
 </body>
 </html>
