@@ -41,7 +41,7 @@
       <div class="video-grid speed-video-grid" aria-label="Execution speed comparison">
         <article class="video-card">
           <div class="video-frame">
-            <video controls playsinline preload="metadata" poster="images/video-posters/speed-1x.jpg" aria-label="Reference-speed robot execution">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/speed-1x.jpg" aria-label="Reference-speed robot execution">
               <source src="videos/1x70s.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -55,7 +55,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls playsinline preload="metadata" poster="images/video-posters/speed-2x.jpg" aria-label="Two-times accelerated robot execution">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/speed-2x.jpg" aria-label="Two-times accelerated robot execution">
               <source src="videos/2x50s.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -69,7 +69,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls playsinline preload="metadata" poster="images/video-posters/speed-4x.jpg" aria-label="Four-times accelerated robot execution">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/speed-4x.jpg" aria-label="Four-times accelerated robot execution">
               <source src="videos/4x25s.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -285,7 +285,7 @@
       <div class="video-grid task-video-grid" aria-label="Real-world task demonstrations">
         <article class="video-card">
           <div class="video-frame">
-            <video controls playsinline preload="metadata" poster="images/video-posters/cup-stacking.jpg" aria-label="Cup stacking demonstration">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/cup-stacking.jpg" aria-label="Cup stacking demonstration">
               <source src="videos/杯子堆叠.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -298,7 +298,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls playsinline preload="metadata" poster="images/video-posters/jelly-grasping.jpg" aria-label="Jelly pouch grasping demonstration">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/jelly-grasping.jpg" aria-label="Jelly pouch grasping demonstration">
               <source src="videos/果冻抓取.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -313,6 +313,106 @@
       <h4>Parameter Sensitivity</h4>
       <p>Parameter-sensitivity results for the position-weighting coefficient and prediction horizon are reported in the manuscript.</p>
       <div class="wide-placeholder">Ablation figure to be added</div>
+    </section>
+
+    <hr>
+
+    <section id="comparison-experiments" class="comparison-section" aria-labelledby="comparison-title">
+      <div class="comparison-heading">
+        <p class="eyebrow">Qualitative Comparison</p>
+        <h3 id="comparison-title">Comparison Experiments</h3>
+        <p>Direct visual comparisons between Diffusion Policy (DP) and PASDP under matched cup-stacking and jelly-grasping tasks.</p>
+      </div>
+
+      <h4 class="comparison-task-title">Cup Stacking</h4>
+      <div class="video-grid comparison-video-grid" aria-label="Cup-stacking policy comparison">
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-dp-cup.jpg" aria-label="Diffusion Policy cup-stacking experiment">
+              <source src="videos/对比实验-DP叠杯子.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge">DP</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>Diffusion Policy</h4>
+            <p>Baseline cup-stacking execution.</p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-cup-1x.jpg" aria-label="PASDP cup-stacking experiment at one-times motion speed">
+              <source src="videos/对比实验-PASDP叠杯子-1x.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge accent">PASDP · 1×</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>PASDP · 1× Motion</h4>
+            <p>Streaming-policy execution at reference motion speed.</p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-cup-4x.jpg" aria-label="PASDP cup-stacking experiment at four-times motion speed">
+              <source src="videos/对比实验-PASDP叠杯子-4x.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge accent">PASDP · 4×</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>PASDP · 4× Motion</h4>
+            <p>Accelerated cup-stacking execution.</p>
+          </div>
+        </article>
+      </div>
+
+      <h4 class="comparison-task-title">Jelly Grasping</h4>
+      <div class="video-grid comparison-video-grid" aria-label="Jelly-grasping policy comparison">
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-dp-jelly.jpg" aria-label="Diffusion Policy jelly-grasping experiment">
+              <source src="videos/对比实验-DP抓果冻.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge">DP</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>Diffusion Policy</h4>
+            <p>Baseline jelly-grasping execution.</p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-jelly-1x.jpg" aria-label="PASDP jelly-grasping experiment at one-times motion speed">
+              <source src="videos/对比实验-PASDP抓果冻-1x.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge accent">PASDP · 1×</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>PASDP · 1× Motion</h4>
+            <p>Streaming-policy execution at reference motion speed.</p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-jelly-4x.jpg" aria-label="PASDP jelly-grasping experiment at four-times motion speed">
+              <source src="videos/对比实验-PASDP抓果冻-4x.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge accent">PASDP · 4×</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>PASDP · 4× Motion</h4>
+            <p>Accelerated jelly-grasping execution.</p>
+          </div>
+        </article>
+      </div>
     </section>
 
     <hr>
@@ -337,7 +437,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls playsinline preload="metadata" poster="images/video-posters/competition-live.jpg" aria-label="Official live-broadcast excerpt from the competition">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/competition-live.jpg" aria-label="Official live-broadcast excerpt from the competition">
               <source src="videos/协作机器人作业任务挑战赛.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -364,7 +464,7 @@
 
     <section id="contact">
       <h3>Contact</h3>
-      <p>Contact information to be added.</p>
+      <p><a href="mailto:20241301010@stu.cqu.edu.cn">20241301010@stu.cqu.edu.cn</a></p>
     </section>
   </main>
 </body>

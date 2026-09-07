@@ -15,6 +15,7 @@ The website presents the method, simulation results, real-world experiments, and
 - Approximately **11 ms** policy-inference latency in the reported real-world experiments
 - Competitive performance across 10 Robomimic simulation tasks
 - Real-world conveyor-manipulation demonstrations
+- Qualitative DP-versus-PASDP comparison experiments for cup stacking and jelly grasping
 - **First Prize (1st place)** in the Manufacturing Category — Collaborative Robot Operation Task Challenge at the 2025 Intelligent Robot Competition
 
 ## Competition Recognition
