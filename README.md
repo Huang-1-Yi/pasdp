@@ -1,30 +1,72 @@
-# PASDP Project Page
+# Position-Aware Streaming Diffusion Policy
 
-A dependency-free static project page for **Position-Aware Streaming Diffusion Policy (PASDP)**, prepared for GitHub Pages.
+Official project page for **Position-Aware Streaming Diffusion Policy (PASDP)**, a streaming diffusion policy for real-time robotic manipulation.
 
-The page structure and scale follow the requested academic-project-page baseline. The implementation is original and does not include source code or media copied from the reference site.
+## Project Website
 
-The text and reported results are based on manuscript v12. Missing paper assets, videos, author details, affiliations, links, BibTeX, acknowledgements, and contact details remain plainly marked as items to be added.
+**[Visit the PASDP project page](https://huang-1-yi.github.io/pasdp/)**
 
-Codebase: <https://gitee.com/huang-1-yi/dp_pro6000.git>
+The website presents the method, simulation results, real-world experiments, and video demonstrations of accelerated robot execution, cup stacking, and jelly pouch grasping.
 
-See `videos/README.md` for video preparation, naming, and HTML integration instructions.
+## Highlights
 
-## Local preview
+- Up to **7× faster action generation**
+- More than **4× faster robot execution**
+- Approximately **11 ms** policy-inference latency in the reported real-world experiments
+- Competitive performance across 10 Robomimic simulation tasks
+- Real-world conveyor-manipulation demonstrations
 
-From this directory, run:
+## Repository Structure
+
+```text
+.
+├── index.html              # Main project page
+├── assets/css/site.css     # Page styles and responsive layout
+├── images/                 # Figures, icons, and video posters
+├── videos/                 # Web-ready demonstration videos
+└── .nojekyll               # Serves the site directly with GitHub Pages
+```
+
+The website is a dependency-free static site built with HTML and CSS. No build step is required.
+
+## Local Preview
+
+Run a local web server from the repository root:
 
 ```powershell
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000/`.
+Then open <http://localhost:8000/> in a browser.
 
-## Before adding media
+## Deployment with GitHub Pages
 
-- Export short web-ready MP4/WebM clips and poster images.
-- Add captions that state the task and result.
-- Keep large source footage outside the repository.
-- Confirm that every uploaded asset is owned by the project or licensed for redistribution.
+The site is published from the `main` branch and the repository root. After committing the changes, deploy the latest version with:
 
-The website uses only original local HTML, CSS, and SVG. No external runtime dependencies are required.
+```powershell
+git push origin main
+```
+
+If GitHub Pages has not been enabled for a fork of this repository, open **Settings → Pages**, select **Deploy from a branch**, and choose the `main` branch with the `/ (root)` directory.
+
+For a fork, the public URL normally follows this pattern:
+
+```text
+https://<github-username>.github.io/<repository-name>/
+```
+
+## Video Assets
+
+The videos use browser-compatible MP4/H.264 encoding. The page loads poster images and video metadata first, so visitors do not download every full video when the page opens.
+
+Additional preparation and naming guidance is available in [`videos/README.md`](videos/README.md).
+
+## Codebase
+
+The associated implementation is available at:
+
+- [PASDP codebase on Gitee](https://gitee.com/huang-1-yi/dp_pro6000.git)
+
+## License and Attribution
+
+Only project-owned or appropriately licensed media should be added to this repository. See [`ATTRIBUTION.md`](ATTRIBUTION.md) for attribution information.
