@@ -256,23 +256,19 @@ video {
   line-height: 1.5;
 }
 
-.task-video-grid {
-  margin: 1em 0 2em;
-}
-
-.comparison-section {
-  margin: 0 0 2em;
-}
-
 .comparison-heading {
   max-width: 42em;
   margin-bottom: 1.3em;
 }
 
-.comparison-heading h3 {
+.real-world-comparison-heading {
+  margin-top: 1.6em;
+}
+
+.comparison-heading h5 {
   margin-bottom: .45em;
   color: #444444;
-  font-size: 1.4em;
+  font-size: 1.1em;
 }
 
 .comparison-heading p:last-child {
