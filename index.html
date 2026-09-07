@@ -20,18 +20,52 @@
       <p class="affiliations">Affiliations to be added</p>
     </header>
 
-    <section aria-label="Project video placeholders">
-      <div class="teaser-labels">
-        <div>Simulation Experiments</div>
-        <div>Real-World Conveyor Manipulation</div>
+    <section id="highlights" class="video-showcase" aria-labelledby="highlights-title">
+      <div class="showcase-heading">
+        <p class="eyebrow">Real-Time Performance</p>
+        <h3 id="highlights-title">Fast generation, faster execution</h3>
+        <p>PASDP streams action updates across control cycles, reducing policy latency while enabling substantially faster robot motion.</p>
       </div>
-      <div class="teaser-grid">
-        <div class="media-placeholder">Video to be added</div>
-        <div class="media-placeholder">Video to be added</div>
-        <div class="media-placeholder">Video to be added</div>
-        <div class="media-placeholder">Video to be added</div>
-        <div class="media-placeholder">Video to be added</div>
-        <div class="media-placeholder">Video to be added</div>
+
+      <div class="metric-strip" aria-label="PASDP speed improvements">
+        <div class="performance-metric">
+          <strong>7×</strong>
+          <span>faster action generation</span>
+        </div>
+        <div class="performance-metric">
+          <strong>4×+</strong>
+          <span>faster execution</span>
+        </div>
+      </div>
+
+      <div class="video-grid" aria-label="Execution speed comparison">
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls playsinline preload="metadata" poster="images/video-posters/speed-1x.jpg" aria-label="Reference-speed robot execution">
+              <source src="videos/1x70s.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge">Reference</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>1× Motion</h4>
+            <p>Reference-speed execution for comparison.</p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls playsinline preload="metadata" poster="images/video-posters/speed-4x.jpg" aria-label="Four-times accelerated robot execution">
+              <source src="videos/4x25s.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+            <span class="video-badge accent">Accelerated</span>
+          </div>
+          <div class="video-card-copy">
+            <h4>4× Motion</h4>
+            <p>Accelerated execution enabled by low-latency streaming inference.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -230,15 +264,32 @@
       </div>
       <p class="table-note">For PASDP, task time is the average successful-sequence time. The DP value is the best uninterrupted sequence reported in the manuscript.</p>
 
-      <div class="result-grid two-columns">
-        <div>
-          <div class="media-placeholder">Task 1 video to be added</div>
-          <p class="caption">Sequential Conveyor Picking</p>
-        </div>
-        <div>
-          <div class="media-placeholder">Task 2 video to be added</div>
-          <p class="caption">Continuous Pick-and-Place</p>
-        </div>
+      <div class="video-grid task-video-grid" aria-label="Real-world task demonstrations">
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls playsinline preload="metadata" poster="images/video-posters/cup-stacking.jpg" aria-label="Cup stacking demonstration">
+              <source src="videos/杯子堆叠.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+          </div>
+          <div class="video-card-copy">
+            <h5>Cup Stacking</h5>
+            <p>Dynamic cup manipulation on the conveyor platform.</p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <div class="video-frame">
+            <video controls playsinline preload="metadata" poster="images/video-posters/jelly-grasping.jpg" aria-label="Jelly pouch grasping demonstration">
+              <source src="videos/果冻抓取.mp4" type="video/mp4">
+              Your browser does not support HTML video.
+            </video>
+          </div>
+          <div class="video-card-copy">
+            <h5>Jelly Grasping</h5>
+            <p>Continuous grasping of deformable jelly pouches.</p>
+          </div>
+        </article>
       </div>
 
       <h4>Parameter Sensitivity</h4>
