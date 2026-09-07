@@ -1,6 +1,12 @@
+# Operating-system files
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local temporary files
 *.tmp
 *.log
+
+# Original video footage; only web-ready files in videos/ are committed
 videos/raw/
+videos/originals/
