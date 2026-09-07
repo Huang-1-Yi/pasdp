@@ -192,6 +192,10 @@ video {
   gap: 1em;
 }
 
+.speed-video-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .video-card {
   min-width: 0;
   overflow: hidden;
@@ -254,6 +258,90 @@ video {
 
 .task-video-grid {
   margin: 1em 0 2em;
+}
+
+.competition-section {
+  margin: 0 0 2em;
+}
+
+.award-heading {
+  max-width: 42em;
+  margin-bottom: 1em;
+}
+
+.award-heading h3 {
+  margin-bottom: .45em;
+  color: #444444;
+  font-size: 1.4em;
+}
+
+.award-heading p:last-child {
+  margin-bottom: 0;
+  color: #555555;
+}
+
+.award-rank {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .7em;
+  margin: 0 0 1em;
+  padding: .55em .9em;
+  border: 1px solid #e0c88d;
+  border-radius: .45em;
+  background: #fffaf0;
+  line-height: 1.2;
+}
+
+.award-rank strong {
+  color: #8c1515;
+  font-size: 1.05em;
+  font-weight: 600;
+}
+
+.award-rank span {
+  color: #725b27;
+  font-size: .75em;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.award-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1em;
+}
+
+.award-certificate {
+  min-width: 0;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid #dedede;
+  border-radius: .55em;
+  background: #ffffff;
+  box-shadow: 0 .3em 1.2em rgba(0, 0, 0, .06);
+}
+
+.award-certificate img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.award-certificate figcaption {
+  padding: .75em 1em .85em;
+  color: #888888;
+  font-size: .68em;
+  line-height: 1.5;
+}
+
+.broadcast-sources {
+  margin: 1em 0 0;
+  color: #777777;
+  font-size: .75em;
+  line-height: 1.6;
 }
 
 hr {
@@ -489,7 +577,9 @@ code {
   .teaser-grid,
   .three-columns,
   .two-columns,
-  .video-grid {
+  .video-grid,
+  .speed-video-grid,
+  .award-grid {
     grid-template-columns: 1fr;
   }
 

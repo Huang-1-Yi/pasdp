@@ -15,6 +15,18 @@ The website presents the method, simulation results, real-world experiments, and
 - Approximately **11 ms** policy-inference latency in the reported real-world experiments
 - Competitive performance across 10 Robomimic simulation tasks
 - Real-world conveyor-manipulation demonstrations
+- **First Prize (1st place)** in the Manufacturing Category — Collaborative Robot Operation Task Challenge at the 2025 Intelligent Robot Competition
+
+## Competition Recognition
+
+We used PASDP in the **Manufacturing Category — Collaborative Robot Operation Task Challenge** at the **2025 Intelligent Robot Competition** in China. Our team received **First Prize and ranked first**.
+
+An unedited excerpt from the official live stream is included at [`videos/协作机器人作业任务挑战赛.mp4`](videos/协作机器人作业任务挑战赛.mp4).
+
+The competition was also reported and broadcast by CCTV.com, CCTV, Lecture Hall of Robotics, and other Chinese media outlets.
+
+- [Official live-stream source — Robot National Evaluation Center](https://weixin.qq.com/sph/AQb0aK2kGR)
+- [CCTV coverage](https://tv.cctv.com/2025/08/25/VIDE9NT9Bngj5JyfdxjVaKrc250825.shtml)
 
 ## Repository Structure
 
