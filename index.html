@@ -285,14 +285,14 @@
       <div class="comparison-heading real-world-comparison-heading">
         <p class="eyebrow">Detailed Videos</p>
         <h5 id="comparison-title">Comparison Experiments</h5>
-        <p>Direct visual comparisons between Diffusion Policy (DP) and PASDP under matched cup-stacking and jelly-grasping tasks.</p>
+        <p>Detailed Diffusion Policy (DP) and PASDP comparisons for the two real-world experiments, shown at 1× and 4× motion speeds where applicable.</p>
       </div>
 
-      <h5 class="comparison-task-title">Cup Stacking</h5>
-      <div class="video-grid comparison-video-grid" aria-label="Cup-stacking policy comparison">
+      <h5 class="comparison-task-title">Task 1: Sequential Conveyor Picking</h5>
+      <div class="video-grid comparison-video-grid" aria-label="Sequential conveyor picking policy comparison">
         <article class="video-card">
           <div class="video-frame">
-            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-dp-cup.jpg" aria-label="Diffusion Policy cup-stacking experiment">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-dp-cup.jpg" aria-label="Diffusion Policy sequential conveyor picking experiment">
               <source src="videos/对比实验-DP叠杯子.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -300,13 +300,13 @@
           </div>
           <div class="video-card-copy">
             <h4>Diffusion Policy</h4>
-            <p>Baseline cup-stacking execution.</p>
+            <p>Baseline execution for sequential conveyor picking.</p>
           </div>
         </article>
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-cup-1x.jpg" aria-label="PASDP cup-stacking experiment at one-times motion speed">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-cup-1x.jpg" aria-label="PASDP sequential conveyor picking experiment at one-times motion speed">
               <source src="videos/对比实验-PASDP叠杯子-1x.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -314,13 +314,13 @@
           </div>
           <div class="video-card-copy">
             <h4>PASDP · 1× Motion</h4>
-            <p>Streaming-policy execution at reference motion speed.</p>
+            <p>Sequential conveyor picking at reference motion speed.</p>
           </div>
         </article>
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-cup-4x.jpg" aria-label="PASDP cup-stacking experiment at four-times motion speed">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-cup-4x.jpg" aria-label="PASDP sequential conveyor picking experiment at four-times motion speed">
               <source src="videos/对比实验-PASDP叠杯子-4x.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -328,16 +328,16 @@
           </div>
           <div class="video-card-copy">
             <h4>PASDP · 4× Motion</h4>
-            <p>Accelerated cup-stacking execution.</p>
+            <p>Sequential conveyor picking at 4× motion speed.</p>
           </div>
         </article>
       </div>
 
-      <h5 class="comparison-task-title">Jelly Grasping</h5>
-      <div class="video-grid comparison-video-grid" aria-label="Jelly-grasping policy comparison">
+      <h5 class="comparison-task-title">Task 2: Continuous Pick-and-Place</h5>
+      <div class="video-grid comparison-video-grid" aria-label="Continuous pick-and-place policy comparison">
         <article class="video-card">
           <div class="video-frame">
-            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-dp-jelly.jpg" aria-label="Diffusion Policy jelly-grasping experiment">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-dp-jelly.jpg" aria-label="Diffusion Policy continuous pick-and-place experiment">
               <source src="videos/对比实验-DP抓果冻.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -345,13 +345,13 @@
           </div>
           <div class="video-card-copy">
             <h4>Diffusion Policy</h4>
-            <p>Baseline jelly-grasping execution.</p>
+            <p>Baseline execution for continuous pick-and-place.</p>
           </div>
         </article>
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-jelly-1x.jpg" aria-label="PASDP jelly-grasping experiment at one-times motion speed">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-jelly-1x.jpg" aria-label="PASDP continuous pick-and-place experiment at one-times motion speed">
               <source src="videos/对比实验-PASDP抓果冻-1x.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -359,13 +359,13 @@
           </div>
           <div class="video-card-copy">
             <h4>PASDP · 1× Motion</h4>
-            <p>Streaming-policy execution at reference motion speed.</p>
+            <p>Continuous pick-and-place at reference motion speed.</p>
           </div>
         </article>
 
         <article class="video-card">
           <div class="video-frame">
-            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-jelly-4x.jpg" aria-label="PASDP jelly-grasping experiment at four-times motion speed">
+            <video controls autoplay loop muted playsinline preload="metadata" poster="images/video-posters/comparison-pasdp-jelly-4x.jpg" aria-label="PASDP continuous pick-and-place experiment at four-times motion speed">
               <source src="videos/对比实验-PASDP抓果冻-4x.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
@@ -373,7 +373,7 @@
           </div>
           <div class="video-card-copy">
             <h4>PASDP · 4× Motion</h4>
-            <p>Accelerated jelly-grasping execution.</p>
+            <p>Continuous pick-and-place at 4× motion speed.</p>
           </div>
         </article>
       </div>
