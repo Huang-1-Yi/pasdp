@@ -1,0 +1,29 @@
+# @package _global_
+# FocalPolicy + Adroit 点云正式入口。默认参数用于公平消融；上游复现
+# 追加 capacity=large recipe=focal_upstream。
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: adroit/door_pointcloud
+  - /dataset: adroit/expert_pointcloud
+  - /env_runner: adroit/default
+  - /policy: focal_flow
+  - /encoder: pointcloud/focal_xyz
+  - /capacity: base
+  - /temporal: focal_h12_obs2_action4
+  - /recipe: pointcloud
+  - /runtime: cuda
+  - _self_
+
+name: focal_adroit_${task_name}_seed${training.seed}
+output_group: focal
+exp_name: pointcloud_policy_compare
+task_name: ${task.task_name}
+n_demo: 10
+dataset_path: data/adroit_${task_name}_expert.zarr
+
+logging:
+  project: pointcloud_adroit_${task_name}
+  resume: false
+  name: ${name}
+  tags: [compare, focal, adroit, pointcloud, "${task_name}"]

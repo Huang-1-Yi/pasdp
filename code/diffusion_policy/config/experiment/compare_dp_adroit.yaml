@@ -1,0 +1,27 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: adroit/door_pointcloud
+  - /dataset: adroit/expert_pointcloud
+  - /env_runner: adroit/default
+  - /policy: dp_ddim
+  - /encoder: pointcloud/focal_xyz
+  - /capacity: base
+  - /temporal: padp_h12_obs2_action4
+  - /recipe: pointcloud
+  - /runtime: cuda
+  - _self_
+
+name: compare_dp_adroit_${task_name}_seed${training.seed}
+output_group: dp
+exp_name: pointcloud_policy_compare
+task_name: ${task.task_name}
+n_demo: 10
+dataset_path: data/adroit_${task_name}_expert.zarr
+
+logging:
+  project: pointcloud_adroit_${task_name}
+  resume: false
+  name: ${name}
+  tags: [compare, dp, adroit, pointcloud, "${task_name}"]

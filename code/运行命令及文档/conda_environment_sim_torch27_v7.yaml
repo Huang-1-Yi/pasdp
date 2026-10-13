@@ -1,0 +1,199 @@
+# Torch 2.7 仿真核心环境 + 按需安装的 encoder 依赖目录。
+#
+# 首选：
+#   mamba env create -f conda_environment_sim_torch27_v7.yaml
+#   conda activate sim_torch27_v7
+#
+# 更新已有 v7 环境：
+#   mamba env update -f conda_environment_sim_torch27_v7.yaml -n sim_torch27_v7
+#
+# 备用：仅用 v6 核心清单修复已有 v7 环境（不会安装本文件备注的可选 encoder）：
+#   mamba env update -f conda_environment_sim_torch27_v6.yaml -n sim_torch27_v7
+#
+# 保底重建：
+#   mamba env remove -n sim_torch27_v7
+#   mamba env create -f conda_environment_sim_torch27_v7.yaml
+#
+# 可选 encoder 请在核心环境创建成功后，从文件末尾选择一个依赖组手动安装。
+# 有效形式是 `python -m pip ...`，或不激活环境时使用：
+#   conda run -n sim_torch27_v7 python -m pip install ...
+
+name: sim_torch27_v7
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip=23.3.2
+  - numpy=1.26.4
+  - numba=0.59.0
+  - scipy=1.11.4
+  - py-opencv=4.6.0
+  - cffi=1.15.1
+  - matplotlib=3.6.1
+  - zarr=2.17.0
+  - numcodecs=0.12.1
+  - h5py=3.7.0
+  - hydra-core=1.3.2
+  - einops=0.6.1
+  - tqdm=4.66.4
+  - dill=0.3.7
+  - gym=0.21.0
+  - threadpoolctl=3.1.0
+  - imageio=2.22.0
+  - imageio-ffmpeg=0.4.7
+  - termcolor=2.0.1
+  - tensorboard=2.10.1
+  - tensorboardx=2.5.1
+  - psutil=5.9.2
+  - click=8.0.4
+  - huggingface_hub=0.25.2
+  # 仿真 rollout 的视频编码依赖。
+  - av=10.0.0
+  # 避免多进程 DataLoader 中已知的 CPU 亲和性问题。
+  - llvm-openmp=14
+
+  - pip:
+      # Torch 2.7.1 使用官方 CUDA 12.8 wheel；当前工程不需要 torchaudio。
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      - torch==2.7.1+cu128
+      - torchvision==0.22.1+cu128
+
+      # 保留已经通过训练与 rollout 验证的旧版调度行为。
+      # Diffusers 0.11.1 仍调用 cached_download，因此 huggingface_hub 保持 0.25.2。
+      - diffusers==0.11.1
+      - wandb==0.17.0
+      - imagecodecs==2022.9.26
+      - egl_probe==1.0.2
+      - mujoco==2.3.2
+
+      # 第三方项目会使用的轻量核心依赖。
+      - pynput==1.8.2
+      - gdown==5.2.2
+      - chardet==5.2.0
+      - iopath==0.1.10
+      - portalocker==3.2.0
+
+      # 以下源码和 wheel 随仓库保存；请从仓库根目录创建环境。
+      - ./third_party/robosuite
+      - ./third_party/robomimic
+      - ./third_party/robosuite-task-zoo
+      # 上游普通 wheel 会漏掉 models；editable 安装保留完整源码与资源。
+      - -e ./third_party/mimicgen
+      - ./third_party/wheels/pytorch3d-0.7.9-py3-none-any.whl
+
+# 防止全局 CUDA Toolkit 动态库覆盖 Torch cu128 wheel 自带运行库。
+variables:
+  LD_LIBRARY_PATH: ""
+
+# ============================================================================
+# 可选 encoder 依赖目录（全部是注释，创建核心环境时不会安装）
+# 每次只选择当前实验需要的一组；安装后执行：python -m pip check
+# ============================================================================
+
+# [encoder:pointnet / encoder:voxel-conv3d]
+# 状态：已接入 pointnet / pointnet_xyz / pointnet_xyzrgb，以及
+# conv3d / voxel_cnn / voxel_cnn_small。均为纯 PyTorch 实现，核心环境已满足，
+# 不需要安装 Open3D、PyTorch3D 或 escnn。注意：model encoder 可用不代表当前 RGB
+# dataset/runner 已能生成点云或体素；端到端实验必须另配数据链。
+
+# [encoder:robomimic / encoder:robomimic_raw]
+# 状态：已接入工厂；默认 DP/PADP 使用。无需额外安装，依赖由 third_party/robomimic 提供。
+
+# [encoder:timm]
+# 状态：已接入工厂；支持 timm ResNet、ConvNeXt、ViT 等模型。
+# 已注册预训练预设：timm_resnet18、timm_convnext_tiny、timm_vit_tiny。
+# 最简命令行用法：policy.rgb_model=timm_convnext_tiny
+# - timm==1.0.28        # timm 图像 backbone 工厂
+# - safetensors==0.8.0  # timm/Hugging Face 权重文件
+# 安装：
+# python -m pip install --no-deps timm==1.0.28 safetensors==0.8.0 避免降级环境
+# 或：
+#   python -m pip install timm==1.0.28 safetensors==0.8.0
+# 或：
+#   conda run -n sim_torch27_v7 python -m pip install timm==1.0.28 safetensors==0.8.0
+# 卸载：
+#   python -m pip uninstall -y timm
+# safetensors 可能被 OpenCLIP 共用，只有确认无其他 provider 使用时再单独卸载。
+
+# [encoder:r3m]
+# 状态：已接入 r3m_resnet18 / r3m_resnet34 / r3m_resnet50。
+# 固定 Git commit，避免跟随远端 HEAD 漂移。
+# - git+https://github.com/facebookresearch/r3m.git@b2334e726887fa0206962d7984c69c5fb09cceab
+# 安装：
+#   python -m pip install --no-deps \
+#     'git+https://github.com/facebookresearch/r3m.git@b2334e726887fa0206962d7984c69c5fb09cceab'
+# 首次下载权重（三种按需执行，缓存位于 ~/.r3m）：
+#   python -c "import r3m; r3m.device='cpu'; r3m.load_r3m('resnet18')"
+# 卸载代码包（不会自动删除 ~/.r3m 权重缓存）：
+#   python -m pip uninstall -y r3m
+
+# [encoder:openai-clip]
+# 状态：已接入 clip_vit_b32；不要误装 PyPI 上名称含糊的 `clip` 包。
+# - git+https://github.com/openai/CLIP.git@d05afc436d78f1c48dc0dbf8e5980a9d471f35f6
+# - ftfy==6.3.1
+# - wcwidth==0.8.2
+# - regex==2024.11.6
+# 安装：
+#   python -m pip install --no-deps ftfy==6.3.1 wcwidth==0.8.2 regex==2024.11.6 \
+#     'git+https://github.com/openai/CLIP.git@d05afc436d78f1c48dc0dbf8e5980a9d471f35f6'
+# 首次下载权重：
+#   python -c "import clip; clip.load('ViT-B/32', device='cpu', jit=False)"
+# 卸载：
+#   python -m pip uninstall -y clip
+# ftfy/wcwidth/regex 可能被 OpenCLIP 共用，不建议在共用环境中连带卸载。
+
+# [encoder:open-clip]
+# 状态：已接入 openclip_vit_b32；需要先安装 timm 组。
+# - open-clip-torch==3.3.0
+# 安装：
+#   python -m pip install --no-deps open-clip-torch==3.3.0 \
+#     ftfy==6.3.1 wcwidth==0.8.2 regex==2024.11.6
+# 首次下载权重：
+#   python -c "import open_clip; open_clip.create_model_and_transforms( \
+#     'ViT-B-32', pretrained='laion2b_s34b_b79k', device='cpu')"
+# 卸载：
+#   python -m pip uninstall -y open-clip-torch
+
+# [encoder:dino / encoder:dinov3]
+# 状态：已通过 timm 接入 timm_dino_vits16、timm_dinov2_vits14、
+# timm_dinov3_vits16；不使用运行期 torch.hub main。DINOv3 预设会将 84 输入
+# 自动 resize 为可被 patch16 整除的 80。
+# 原始 DINO 源码审计基线（不是默认安装项）：
+# - https://github.com/facebookresearch/dino.git@7c446df5b9f45747937fb0d72314eb9f7b66930a
+# DINOv3 预训练权重可能需要 Hugging Face 授权、联网下载和本地缓存。
+
+# [encoder:timm-lora]
+# 状态：后续候选；不是独立 encoder，仅在 timm ViT 做 LoRA 微调时需要。
+# 当前代码尚未启用 LoRA，不应为普通 timm ResNet/ConvNeXt/ViT 安装这一组。
+# - peft==0.19.1
+# 安装前必须在克隆环境中核对 peft/transformers/huggingface_hub 与
+# diffusers==0.11.1 的约束，不能直接升级核心 huggingface_hub。
+
+# ============================================================================
+# [environment:focal-legacy-rollout] MetaWorld / Adroit 可选仿真组
+# 状态：源码已 vendored 到 third_party，默认创建 v7 时不安装；Robomimic 的现代
+# robosuite 路径不依赖这一组。完整安装、验证与回滚命令见 v8升级指令.md。
+#
+# Python 缺口（先装，避免 editable 包触发依赖解析）：
+# - Cython==0.29.35       # 只用于编译 mujoco-py 2.1.2.14
+# - fasteners==0.20       # mujoco-py 编译锁
+# - dm-env==1.6           # Adroit wrapper 的 timestep/spec 接口
+# - dm-tree==0.1.8        # dm-env 的显式依赖；有 CPython 3.10 wheel
+# - patchelf==0.17.2.0    # mujoco-py 编译后修正动态库依赖
+# - open3d-cpu==0.18.0    # import 名仍是 open3d；RGB-D 点云/FPS 不需要其 CUDA wheel
+#
+# 本地源码（必须从仓库根目录执行，全部使用 --no-deps）：
+# - -e ./third_party/mujoco-py-2.1.2.14
+# - -e ./third_party/Metaworld
+# - -e ./third_party/mjrl
+# - -e ./third_party/mj_envs
+#
+# 不安装：
+# - torch-dct：当前 Focal policy 已改用项目内纯 PyTorch 正交 DCT。
+# - third_party/pytorch3d_simplified：迁移层默认使用 Open3D FPS；现有 no-extension
+#   PyTorch3D wheel 也不能调用 pytorch3d.ops.sample_farthest_points。
+# - third_party/gym-0.21.0：核心环境已经固定 conda gym=0.21.0。
+# - VRL3：当前串行点云 rollout 不经过该视觉预训练分支。

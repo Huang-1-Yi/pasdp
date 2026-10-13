@@ -1,0 +1,126 @@
+# @package _global_
+# 复制目标：diffusion_policy/config/robomimic_padp_command_v1.yaml
+# 默认是 Robomimic；命令行 task=mimicgen_abs_padp_metaworld 可切换到 MetaWorld 点云。
+defaults:
+  - _self_
+  - /task: mimicgen_abs_padp
+
+name: padp_command_${policy.noise_schedule_mode}_${n_obs_steps}_${n_action_steps}_${horizon}_${window_exp_gamma}
+_target_: diffusion_policy.workspace.train_padp_workspace.TrainPADPWorkspace
+
+shape_meta: ${task.shape_meta}
+exp_name: command_v1
+n_demo: 200
+n_obs_steps: 1
+n_action_steps: 1
+horizon: 40
+window_exp_gamma: 0.2
+task_name: coffee_d0
+n_latency_steps: 0
+dataset_obs_steps: ${n_obs_steps}
+past_action_visible: false
+obs_as_global_cond: true
+dataset: diffusion_policy.dataset.robomimic.replay_image_dataset_padp.RobomimicReplayImageDataset
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  _target_: diffusion_policy.policy.padp.PADPPolicy
+  shape_meta: ${shape_meta}
+  noise_scheduler:
+    _target_: diffusers.schedulers.scheduling_ddim.DDIMScheduler
+    num_train_timesteps: ${horizon}
+    beta_start: 0.0001
+    beta_end: 0.02
+    beta_schedule: squaredcos_cap_v2
+    clip_sample: true
+    set_alpha_to_one: true
+    steps_offset: 0
+    prediction_type: sample
+  obs_encoder: null
+  rgb_model: robomimic
+  rgb_encoder_kwargs: {}
+  pointcloud_model: pointnet_focal_xyz
+  pointcloud_encoder_kwargs: {}
+  voxel_model: conv3d
+  voxel_encoder_kwargs: {}
+  crop_shape: [76, 76]
+  obs_encoder_group_norm: true
+  eval_fixed_crop: true
+  noise_schedule_mode: positionwise
+  noise_chunk_size: 1
+  window_loss_weights: exponential
+  window_exp_gamma: ${window_exp_gamma}
+  horizon: ${horizon}
+  n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+  n_obs_steps: ${n_obs_steps}
+  num_inference_steps: ${horizon}
+  obs_as_global_cond: ${obs_as_global_cond}
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  cond_predict_scale: true
+  pred_type: sample
+
+ema:
+  _target_: diffusion_policy.model.common.ema_model.EMAModel
+  update_after_step: 0
+  inv_gamma: 1.0
+  power: 0.75
+  min_value: 0.0
+  max_value: 0.9999
+
+dataloader: {batch_size: 64, num_workers: 8, shuffle: false, pin_memory: true, persistent_workers: true}
+val_dataloader: {batch_size: 64, num_workers: 8, shuffle: false, pin_memory: true, persistent_workers: true}
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1.0e-4
+  betas: [0.95, 0.999]
+  eps: 1.0e-8
+  weight_decay: 1.0e-6
+
+training:
+  device: cuda:0
+  seed: 42
+  debug: false
+  resume: false
+  pretrained_model_path: null
+  freeze_encoder: false
+  lr_scheduler: cosine
+  lr_warmup_steps: 500
+  num_epochs: ${eval:'50000 / ${n_demo} + 1'}
+  gradient_accumulate_every: 1
+  use_ema: true
+  rollout_every: ${eval:'1000 / ${n_demo}'}
+  checkpoint_every: ${eval:'1000 / ${n_demo}'}
+  val_every: 1
+  sample_every: 5
+  max_train_steps: null
+  max_val_steps: null
+  tqdm_interval_sec: 1.0
+  uint8_to_gpu: true
+
+logging:
+  project: padp_${task_name}
+  resume: false
+  mode: offline
+  name: ${name}_${task_name}
+  tags: [padp, "${task_name}", "${policy.noise_schedule_mode}"]
+  id: null
+  group: null
+
+checkpoint:
+  topk:
+    monitor_key: test_mean_score
+    mode: max
+    k: 5
+    format_str: 'epoch{epoch:03d}_score{test_mean_score:.4f}.ckpt'
+  save_last_ckpt: true
+  save_last_snapshot: false
+
+hydra:
+  run:
+    dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+  sweep:
+    dir: data/outputs/${now:%Y.%m.%d}/${now:%H.%M.%S}_${name}_${task_name}
+    subdir: ${hydra.job.num}

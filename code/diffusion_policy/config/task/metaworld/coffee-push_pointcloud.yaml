@@ -1,0 +1,6 @@
+defaults:
+  - /task_schema: metaworld_pointcloud
+  - _self_
+
+name: metaworld_coffee-push_pointcloud
+task_name: coffee-push

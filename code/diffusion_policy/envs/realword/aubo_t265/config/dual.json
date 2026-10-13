@@ -1,0 +1,45 @@
+{
+  "arms": [
+    {
+      "side": "left", "ip": "192.168.3.200", "port": 30004,
+      "serial": "224622111506", "index": 0, "encoder_port": null,
+      "calibration": "left_calib.json",
+      "no_range_limit": true,
+      "position_axis_signs": [-1, -1, 1], "rotation_axis_signs": [-1, -1, 1],
+      "world_from_base": null, "gripper": {"type": "disabled", "mode": "independent", "pins": [0, 1]}
+    },
+    {
+      "side": "right", "ip": "192.168.2.200", "port": 30004,
+      "serial": "121222110870", "index": 1, "encoder_port": null,
+      "calibration": "right_calib.json",
+      "no_range_limit": true,
+      "position_axis_signs": [1, 1, 1], "rotation_axis_signs": [1, 1, 1],
+      "world_from_base": null, "gripper": {"type": "disabled", "mode": "independent", "pins": [0]}
+    }
+  ],
+  "home_file": "home_positions.json",
+  "motion": {
+    "teleop_frequency": 50, "robot_frequency": 50, "state_frequency": 50,
+    "record_frequency": 10, "position_scale": 1.5, "rotation_scale": 1.0,
+    "max_translation": 0.05, "max_rotation_deg": 10,
+    "max_speed": 0.1, "max_angular_speed_deg": 10,
+    "smooth_alpha": 0.35, "rotation_smooth_alpha": 0.7, "deadzone": 0.0002,
+    "command_latency": 0.04, "pose_timeout": 0.15, "command_timeout": 0.5,
+    "gripper_toggle_deg": 30
+  },
+  "controller": {
+    "max_pos_speed": 0.25, "max_rot_speed_deg": 10,
+    "servo_t": 0.02, "servo_a": 3.5, "servo_v": 2.0,
+    "lookahead_time": 0.05, "gain": 120, "speed_fraction": 0.4, "launch_timeout": 12,
+    "max_joint_step": 0.05, "max_joint_speed": null,
+    "max_following_error": null, "reject_joint_jumps": false
+  },
+  "cameras": {
+    "serial_numbers": ["246322302104","352122271606"], "capture_resolution": [640, 480],
+    "obs_resolution": [640, 480], "capture_fps": 30
+  },
+  "workspace": {"enabled": true, "reference": "calibrated_base",
+                "max_downward_distance": {"left": 0.565, "right": 0.535}, "target_margin": 0.0},
+  "sender": {"delay_s": 3, "tcp_offset_enabled": false,
+             "tcp_offset_m": [0, 0, 0], "tcp_offset_quat_xyzw": [0, 0, 0, 1]}
+}

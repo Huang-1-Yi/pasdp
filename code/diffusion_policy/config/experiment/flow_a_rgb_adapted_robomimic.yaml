@@ -1,0 +1,31 @@
+# @package _global_
+# Experiment A: FlowPolicy mechanism/capacity adapted to the RGB runner.
+# Upstream nominal H4/O2/A4 yields only 3 actions after the standard To-1 slice;
+# use the smallest UNet-compatible H8 while preserving O2/A4.
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: flow_policy
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: flow_h8_obs2_action4
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: flow_a_rgb_h8_o2_a4_flow1_${task_name}_seed${training.seed}
+output_group: pasdp_experiment_a
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  crop_shape: [76, 76]
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_a, flow_policy, rgb_adapted]

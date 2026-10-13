@@ -1,0 +1,28 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: act
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: act_h10_obs1_action10
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: act_robomimic_${task_name}_seed${training.seed}
+output_group: act
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+training:
+  optimizer_source: model
+  use_ema: false
+
+logging:
+  project: act_${task_name}
+  name: ${name}

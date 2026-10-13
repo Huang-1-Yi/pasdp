@@ -1,0 +1,29 @@
+# @package _global_
+# Experiment D: FlowPolicy RGB adaptation with PASDP temporal parameters.
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: flow_policy
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: pasdp_matched_h40_obs1_action1
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: flow_d_pasdp_matched_rgb_h40_o1_a1_flow1_${task_name}_seed${training.seed}
+output_group: pasdp_experiment_d
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  crop_shape: [76, 76]
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_d, flow_policy, pasdp_matched, rgb_adapted]

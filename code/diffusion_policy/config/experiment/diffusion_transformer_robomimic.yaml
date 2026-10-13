@@ -1,0 +1,33 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: diffusion_transformer
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: dp_h16_obs2_action8
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: diffusion_transformer_robomimic_${task_name}_seed${training.seed}
+output_group: diffusion_transformer
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy_optimizer:
+  transformer_weight_decay: 1.0e-3
+  obs_encoder_weight_decay: 1.0e-6
+  learning_rate: 1.0e-4
+  betas: [0.9, 0.95]
+
+training:
+  optimizer_source: policy_method
+
+logging:
+  project: diffusion_transformer_${task_name}
+  name: ${name}

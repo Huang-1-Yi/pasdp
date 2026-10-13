@@ -1,0 +1,18 @@
+# @package task.dataset
+_target_: diffusion_policy.dataset.robomimic.replay_image_dataset_padp_unrolled.RobomimicReplayImageDatasetUnrolled
+rollout_steps: 2
+n_demo: ${n_demo}
+shape_meta: ${task.shape_meta}
+dataset_path: ${dataset_path}
+horizon: ${horizon}
+n_obs_steps: ${dataset_obs_steps}
+n_action_steps: ${n_action_steps}
+abs_action: ${task.abs_action}
+rotation_rep: rotation_6d
+use_legacy_normalizer: false
+use_cache: true
+seed: 42
+val_ratio: 0.02
+batch_size: ${dataloader.batch_size}
+num_epochs: ${training.num_epochs}
+uint8_to_gpu: ${training.uint8_to_gpu}

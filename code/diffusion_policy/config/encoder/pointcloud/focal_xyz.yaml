@@ -1,0 +1,11 @@
+# @package policy
+
+obs_encoder: null
+pointcloud_model: pointnet_focal_xyz
+# 显式固定上游默认值，避免 encoder 类默认参数变化后实验静默漂移。
+pointcloud_encoder_kwargs:
+  point_feature_dim: 64
+  state_mlp_size: [64, 64]
+  use_layer_norm: true
+  final_norm: layernorm
+  include_low_dim: true

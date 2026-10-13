@@ -1,0 +1,6 @@
+defaults:
+  - /task_schema: metaworld_pointcloud
+  - _self_
+
+name: metaworld_plate-slide-side_pointcloud
+task_name: plate-slide-side

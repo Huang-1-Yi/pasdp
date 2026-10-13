@@ -1,0 +1,6 @@
+# @package policy
+defaults:
+  - padp_positionwise
+_target_: diffusion_policy.policy.padp_unrolled.SlidingWindowDiffusionPolicyUnrolled
+rollout_steps: 2
+self_rollout_warmup_fraction: 0.4

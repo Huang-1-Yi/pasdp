@@ -1,0 +1,2 @@
+# @package _global_
+_target_: diffusion_policy.workspace.robomimic.train_bcrnn_workspace.TrainBCRNNWorkspace

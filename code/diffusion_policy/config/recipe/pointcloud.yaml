@@ -1,0 +1,25 @@
+# @package _global_
+# MetaWorld / Adroit 点云训练的唯一正式默认。
+# 2080Ti 与 Pro 6000D 使用相同 batch，避免硬件相关默认值污染消融实验。
+dataloader:
+  batch_size: 128
+  num_workers: 8
+  shuffle: true
+  pin_memory: true
+  persistent_workers: false
+
+val_dataloader:
+  batch_size: 128
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: false
+
+training:
+  resume: false
+  freeze_encoder: false
+  num_epochs: 1000
+  rollout_every: 100
+  checkpoint_every: 100
+  uint8_to_gpu: false
+  enable_validation: true

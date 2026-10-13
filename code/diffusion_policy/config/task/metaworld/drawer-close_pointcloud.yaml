@@ -1,0 +1,6 @@
+defaults:
+  - /task_schema: metaworld_pointcloud
+  - _self_
+
+name: metaworld_drawer-close_pointcloud
+task_name: drawer-close

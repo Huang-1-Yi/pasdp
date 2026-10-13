@@ -1,0 +1,3 @@
+# Keep the imported source and shell scripts byte-for-byte on all platforms.
+# Disable automatic line-ending conversion, including for upstream assets.
+* -text

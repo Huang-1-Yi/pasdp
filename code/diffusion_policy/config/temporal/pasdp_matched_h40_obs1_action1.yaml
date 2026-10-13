@@ -1,0 +1,4 @@
+# @package _global_
+horizon: 40
+n_obs_steps: 1
+n_action_steps: 1

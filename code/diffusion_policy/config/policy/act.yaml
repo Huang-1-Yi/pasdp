@@ -1,0 +1,16 @@
+# @package policy
+_target_: diffusion_policy.policy.act.ACTPolicyWrapper
+shape_meta: ${shape_meta}
+max_timesteps: ${task.env_runner.max_steps}
+temporal_agg: false
+n_envs: ${task.env_runner.n_envs}
+horizon: ${horizon}
+lr: 5.0e-5
+lr_backbone: 5.0e-5
+kl_weight: 10.0
+hidden_dim: 512
+dim_feedforward: 3200
+backbone: resnet18
+enc_layers: 4
+dec_layers: 7
+nheads: 8

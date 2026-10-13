@@ -1,0 +1,2 @@
+# @package task.env_runner
+_target_: diffusion_policy.envs.realword.real_image_runner.RealImageRunner

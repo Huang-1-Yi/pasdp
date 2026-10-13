@@ -1,0 +1,32 @@
+# @package _global_
+# ----------------------------------------------------------------------
+# shuffle=false 是 PADP dataset (RTV8) 的内在要求, 不是疏忽:
+# PADP dataset 每个 epoch 构建 [batch_size, max_cols, 2] 确定性映射表,
+# DataLoader 用 SequentialSampler (shuffle=false) 才能保持 B×max_cols
+# 的维度对应关系。不同 epoch 之间的映射表已在构建阶段做了随机打乱,
+# 等价于 epoch 级 shuffle, 多 epoch 数据顺序仍不同。
+# ----------------------------------------------------------------------
+dataloader:
+  batch_size: 64
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: true
+
+val_dataloader:
+  batch_size: 64
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: true
+
+training:
+  num_epochs: ${eval:'50000 / ${n_demo} + 1'}
+  rollout_every: ${eval:'1000 / ${n_demo}'}
+  checkpoint_every: ${eval:'1000 / ${n_demo}'}
+  # A/B 实验以仿真 rollout 成功率选 checkpoint，不创建额外的验证 DataLoader。
+  enable_validation: false
+  # 公平消融固定训练预算；高成功率算法也必须跑满相同 epoch。
+  early_stopping:
+    enabled: false
+  uint8_to_gpu: true

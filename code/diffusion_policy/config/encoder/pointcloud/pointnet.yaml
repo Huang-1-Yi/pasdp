@@ -1,0 +1,5 @@
+# @package policy
+
+obs_encoder: null
+pointcloud_model: pointnet
+pointcloud_encoder_kwargs: {}

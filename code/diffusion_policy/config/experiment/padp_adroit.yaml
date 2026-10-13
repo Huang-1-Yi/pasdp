@@ -1,0 +1,27 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: padp
+  - /task: adroit/door_pointcloud
+  - /dataset: adroit/expert_pointcloud
+  - /env_runner: adroit/default
+  - /policy: padp_positionwise
+  - /encoder: pointcloud/focal_xyz
+  - /capacity: base
+  - /temporal: padp_h40_obs1_action1
+  - /recipe: pointcloud
+  - /runtime: cuda
+  - _self_
+
+name: padp_adroit_${task_name}_${n_obs_steps}_${n_action_steps}_${horizon}
+output_group: padp
+exp_name: padp_adroit_pointcloud
+task_name: ${task.task_name}
+n_demo: 10
+dataset_path: data/adroit_${task_name}_expert.zarr
+
+logging:
+  project: padp_adroit_${task_name}
+  resume: false
+  name: ${name}
+  tags: [padp, adroit, pointcloud, "${task_name}"]

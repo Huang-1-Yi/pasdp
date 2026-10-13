@@ -1,0 +1,77 @@
+# Ignore data directory (top-level)
+/data/
+
+# VS Code settings
+.vscode/
+
+# Python cache
+__pycache__/
+
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.webp
+*.svg
+*.heic
+*.heif
+*.raw
+*.cr2
+*.nef
+*.arw
+
+
+
+# Video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.flv
+*.mpg
+*.mpeg
+*.3gp
+*.ts
+
+/作废/
+/run_logs/
+
+
+# 1*.md
+# 实验运行资料需要随代码同步到训练服务器。
+# tests/运行命令/**/*.md
+# v8 legacy 环境安装手册需要随迁移代码同步到服务器。
+# v8升级指令.md
+# 本轮策略迁移、消融与暂缓清单需要随代码同步。
+# v8策略迁移与真机候选.md
+
+
+# third_party 是项目运行依赖，全部纳入版本管理
+# third_party 中的图片是 Robosuite / MimicGen 运行时纹理和模型资源，
+# 必须随源码提交，不能被上面的实验图片忽略规则过滤。
+
+!third_party/
+!third_party/**
+
+*.pyc
+
+/代码及算法优化流程/*
+!/代码及算法优化流程/v9算法结构优化.md
+!/代码及算法优化流程/v9算法结构优化_阶段1.md
+!/代码及算法优化流程/v9算法结构优化_阶段1_修订版本.md
+
+/对比实验/
+
+/改进方向/
+
+/作废/
+
+/不上传
+/aubo_t265_teleop_bundle/
+
+/测试/

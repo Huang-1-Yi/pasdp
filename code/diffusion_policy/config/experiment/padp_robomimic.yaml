@@ -1,0 +1,25 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: padp
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image_padp
+  - /env_runner: robomimic/standard
+  - /policy: padp_positionwise
+  - /encoder: rgb/robomimic
+  - /capacity: base
+  - /temporal: padp_h40_obs1_action1
+  - /recipe: padp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: padp_${policy.noise_schedule_mode}_${n_obs_steps}_${n_action_steps}_${horizon}_${window_exp_gamma}
+output_group: padp
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+logging:
+  project: diffusion_policy_${task_name}
+  name: padp_c_${policy.noise_schedule_mode}_demo${n_demo}_h${horizon}_obs${n_obs_steps}_a${n_action_steps}_beta${window_exp_gamma}
+  tags: ["${name}", "${task_name}", "${exp_name}", "${policy.noise_schedule_mode}"]

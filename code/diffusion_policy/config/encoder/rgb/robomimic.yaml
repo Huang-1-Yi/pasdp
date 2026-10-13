@@ -1,0 +1,8 @@
+# @package policy
+
+obs_encoder: null
+rgb_model: robomimic
+rgb_encoder_kwargs: {}
+crop_shape: [76, 76]
+obs_encoder_group_norm: true
+eval_fixed_crop: true

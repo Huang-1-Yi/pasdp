@@ -1,0 +1,33 @@
+# @package _global_
+# D2: replace position-dependent loss weights while preserving their sum.
+defaults:
+  - /base: train_common
+  - /workspace: padp
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image_padp
+  - /env_runner: robomimic/standard
+  - /policy: padp_positionwise
+  - /encoder: rgb/robomimic
+  - /capacity: base
+  - /temporal: padp_h40_obs1_action1
+  - /recipe: padp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: pasdp_d2_uniform_weight_${task_name}_seed${training.seed}
+output_group: D_ablation/d2/${task_name}/seed${training.seed}
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  _target_: diffusion_policy.policy.padp_ablation.PADPAblationPolicy
+  ablation_noise_schedule_mode: positionwise
+  ablation_loss_weight_mode: uniform_sum_preserving
+  fixed_permutation_seed: 20260915
+  crop_shape: [76, 76]
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_d2, pasdp, ablation, uniform_sum_preserving]

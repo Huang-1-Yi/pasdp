@@ -1,0 +1,24 @@
+# @package _global_
+dataloader:
+  batch_size: 64
+  num_workers: 8
+  shuffle: true
+  pin_memory: true
+  persistent_workers: true
+
+val_dataloader:
+  batch_size: 64
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: true
+
+training:
+  num_epochs: ${eval:'50000 / ${n_demo} + 1'}
+  rollout_every: ${eval:'1000 / ${n_demo}'}
+  checkpoint_every: ${eval:'1000 / ${n_demo}'}
+  # A/B 实验以仿真 rollout 成功率选 checkpoint，不创建额外的验证 DataLoader。
+  enable_validation: false
+  # 公平消融固定训练预算；高成功率算法也必须跑满相同 epoch。
+  early_stopping:
+    enabled: false

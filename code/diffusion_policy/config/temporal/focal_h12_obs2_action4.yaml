@@ -1,0 +1,5 @@
+# @package _global_
+# 上游 FocalPolicy 点云默认 temporal。
+horizon: 12
+n_obs_steps: 2
+n_action_steps: 4

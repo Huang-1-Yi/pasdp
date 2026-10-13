@@ -1,0 +1,6 @@
+defaults:
+  - /task_schema: metaworld_pointcloud
+  - _self_
+
+name: metaworld_push-wall_pointcloud
+task_name: push-wall

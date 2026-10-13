@@ -1,0 +1,29 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: padp_unrolled
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image_padp_unrolled
+  - /env_runner: robomimic/small
+  - /policy: padp_unrolled
+  - /encoder: rgb/robomimic
+  - /capacity: smoke
+  - /temporal: padp_unrolled_h40_k2
+  - /recipe: padp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: padp_unrolled_${task_name}
+output_group: padp
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+dataloader:
+  batch_size: 16
+  num_workers: 4
+  shuffle: false
+  persistent_workers: true
+
+training:
+  enable_rollout: false

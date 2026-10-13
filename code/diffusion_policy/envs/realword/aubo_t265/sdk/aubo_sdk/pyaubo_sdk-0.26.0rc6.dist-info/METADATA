@@ -1,0 +1,72 @@
+Metadata-Version: 2.1
+Name: pyaubo-sdk
+Version: 0.26.0rc6
+Summary: A Python interface for controlling aubo robot 
+Home-page: UNKNOWN
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6, <3.13
+Description-Content-Type: text/markdown
+
+<div align="center">
+  <h1 align="center">aubo_sdk</h1>
+  <h3 align="center">
+    ARCS controller software secondary development interface
+  </h3>
+</div>
+
+## 1. User SDK Interface
+Users connect to the extended AUBO_comm server of AUBO_Control through SocketTCP or shared memory, and send commands to the AUBO_control controller software to realize remote control of the robot
+
+### 1.1 JsonRPC interface
+
+JsonRPC communication ports based on SocketTCP and HTTP protocols are provided
+
+### 1.2 RTDE interface
+
+The RTDE interface based on SocketTCP and HTTP protocol is provided
+
+### 1.3 C++/Python SDK 接口
+
+It includes JsonRPC interface and RTDE real-time data exchange interface
+
+## 2. Controller Software Extension
+
+Aubo_control controller software built-in a plug-in framework, support on the AuboControlAPI interface layer on the controller software functions for functional extension.For example, Aubo_script extends the function of robot script running, Aubo_comm is a socket server that supports multi-user connections
+
+## 3. Key Features
+
+ * Available on multiple platforms (Linux, Windows)
+ * Can be used from C++ and Python.
+ * Easy to install and setup.
+
+## 4. Documentation
+
+## 5. Quick Install
+
+### From PyPi: ###
+If you only want to the use the Python interface, you can install pyaubo_sdk through pip:
+
+```bash
+pip3 install pyaubo_sdk
+```
+
+### Prebuilt python wheels support matrix: ###
+|                | Python3.6 | Python3.7 | Python3.8 | Python3.9 | Python3.10 | Python3.11 |
+| :------------: | :-------: | :-------: | :-------: | :-------: | :--------: | :--------: |
+|   linux x64    |     ✅     |     ✅     |     ✅     |     ✅     |     ✅      |     ✅      |
+| windows 64 bit |     ✅     |     ✅     |     ✅     |     ✅     |     ✅      |     ✅      |
+
+### Dependencies ###
+*  If you're running Linux , you may need to install gcc-7/g++-7
+*  If you're running windows , you may need to install visual studio 2019 or later
+
+### Compatible Operating Systems ###
+Currently tested on:
+
+*  Ubuntu 16.04 
+*  Debian 10 (Buster)
+*  Windows 10  x64
+

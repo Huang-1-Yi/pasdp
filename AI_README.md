@@ -1,7 +1,7 @@
 # PASDP Project Page — AI Maintenance Guide
 
 > Audience: AI coding agents and future maintainers.  
-> Last verified: 2026-09-07.  
+> Source-code integration verified: 2026-10-13.
 > Public-facing documentation remains in `README.md`; do not replace it with this file.
 
 ## 1. Project Purpose
@@ -9,11 +9,12 @@
 This repository contains the official project page for **Position-Aware Streaming Diffusion Policy (PASDP)**, a streaming diffusion policy for real-time robotic manipulation.
 
 - Public site: `https://huang-1-yi.github.io/pasdp/`
-- Code repository linked by the page: `https://gitee.com/huang-1-yi/dp_pro6000.git`
+- Code directory linked by the page: `https://github.com/Huang-1-Yi/pasdp/tree/main/code`
+- Original source repository: `https://gitee.com/huang-1-yi/dp_pro6000`
 - Contact: `20241301010@stu.cqu.edu.cn`
-- GitHub Pages source: repository root of the `main` branch
+- GitHub Pages source: GitHub Actions, `.github/workflows/pages.yml`, from `main`
 
-The site is a dependency-free static website. It uses plain HTML and CSS and has no build step, package manager, JavaScript application, or server-side component.
+The site is a dependency-free static website. It uses plain HTML and CSS and has no build step, package manager, JavaScript application, or server-side component. Algorithm source and its own dependencies live separately in `code/`.
 
 ## 2. Source of Truth
 
@@ -27,6 +28,12 @@ The site is a dependency-free static website. It uses plain HTML and CSS and has
 - `.nojekyll`: tells GitHub Pages to serve the static files directly
 - `ATTRIBUTION.md`: third-party source and media attribution
 - `README.md`: short English README for human visitors
+- `code/README.md`: English installation, training, and evaluation entry point
+- `code/README_UPSTREAM.md`: preserved original source README
+- `code/SOURCE_IMPORT.md`: source commit, integration changes, and verification scope
+- `code/third_party/`: vendored runtime dependencies, including meshes, textures, SDKs, wheels, and upstream licenses
+
+Run algorithm commands with `code/` as the working directory. Keep datasets and generated training outputs out of Git. Do not apply blanket media or `*.obj` exclusions to `code/third_party/`: these files include runtime textures and robot meshes. Preserve the site at the repository root. Importing source does not verify that its defaults reproduce every published experiment; do not update result tables from configuration defaults.
 
 Do not introduce a framework or build tool unless the user explicitly requests one. Preserve relative URLs because the site is served from the `/pasdp/` project path rather than a domain root.
 
@@ -37,7 +44,7 @@ The current section order in `index.html` is:
 1. Paper-style title header
    - Title: Position-Aware Streaming Diffusion Policy
    - Subtitle: for Real-Time Robotic Manipulation
-   - Author and affiliation placeholders remain intentionally visible.
+   - Authors, affiliations, and corresponding-author contact are populated.
 2. Performance highlights
    - Claims: **7× faster action generation** and **4×+ faster execution**
    - Three videos: 1×, 2×, and 4× motion
@@ -89,14 +96,15 @@ Do not relabel Task 1 as “Cup Stacking” or Task 2 as “Jelly Grasping” in
 - Performance: `videos/1x70s.mp4`, `videos/2x50s.mp4`, `videos/4x25s.mp4`
 - Detailed real-world comparisons: the six files listed in Section 4
 - Competition: `videos/协作机器人作业任务挑战赛.mp4`
+- Simulation: ten task-named MP4 clips, from `videos/coffee.mp4` through `videos/three_piece_assembly.mp4`
 
-The page currently contains 10 video players. Every player must retain:
+The page currently contains 20 video players. Every player must retain:
 
 ```html
-controls autoplay loop muted playsinline preload="metadata"
+autoplay loop muted playsinline preload="metadata"
 ```
 
-`muted` is necessary for browser autoplay policies. Every video should also have:
+Keep `controls` on the performance, real-world, and competition players; the compact simulation cards currently omit controls. `muted` is necessary for browser autoplay policies. Every video should also have:
 
 - a browser-compatible MP4/H.264 source;
 - a poster image under `images/video-posters/`;
@@ -167,9 +175,6 @@ Maintain the paper-like hierarchy, generous whitespace, and restrained palette. 
 
 The following content is intentionally unfinished:
 
-- Authors
-- Affiliations
-- Tutorial
 - Method figure
 - Parameter-sensitivity / ablation figure
 - Paper link and preview, currently hidden
@@ -179,7 +184,7 @@ Do not invent these details. Leave the placeholders or hidden sections intact un
 
 ## 10. GitHub Pages and Deployment
 
-The public site is expected to deploy from the `main` branch and repository root. A normal update is:
+The public site is expected to deploy from `main` using `.github/workflows/pages.yml`. The workflow exports only `index.html`, `.nojekyll`, `assets/`, `images/`, `videos/`, `README.md`, and `ATTRIBUTION.md`. Do not package `code/` into the published site: the full combined checkout exceeds the Pages 1 GB site limit. Settings → Pages must use GitHub Actions instead of root-branch publishing. A normal update is:
 
 ```powershell
 git add .
@@ -203,7 +208,7 @@ After editing:
 
 1. Run `git diff --check`.
 2. Confirm every local path referenced by `src`, `poster`, `href`, and image attributes exists where applicable.
-3. Confirm all 10 current video players still include `controls`, `autoplay`, `loop`, `muted`, and `playsinline` unless the user deliberately changes playback behavior.
+3. Confirm all 20 current video players still include `autoplay`, `loop`, `muted`, and `playsinline`; retain controls where already present unless the user deliberately changes playback behavior.
 4. Confirm the six comparison videos remain mapped to the two formal task names described in Section 4.
 5. Confirm the Paper and BibTeX blocks remain commented out.
 6. Preview with `python -m http.server 8000` when layout or media behavior changes.

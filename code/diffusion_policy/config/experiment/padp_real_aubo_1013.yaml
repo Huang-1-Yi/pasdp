@@ -1,0 +1,25 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: padp
+  - /task: real/dual_aubo
+  - /dataset: real/replay_image
+  - /env_runner: real/offline
+  - /policy: padp_positionwise
+  - /encoder: rgb/robomimic
+  - /capacity: base
+  - /temporal: padp_h40_obs1_action1
+  - /recipe: padp_real
+  - /runtime: cuda
+  - _self_
+name: padp_real_aubo_1013
+task_name: aubo_1013
+output_group: padp_real
+dataset_path: /media/disk7t/dp_pro6000/data/1013
+real_cache_dir: /media/disk7t/dp_pro6000/data/real_cache/1013
+policy:
+  crop_shape: [216, 288]
+logging:
+  project: padp_real_aubo
+  name: ${name}
+  tags: [padp, real, dual_aubo, "1013"]

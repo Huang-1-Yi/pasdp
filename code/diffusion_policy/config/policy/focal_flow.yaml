@@ -1,0 +1,25 @@
+_target_: diffusion_policy.policy.focal_policy.FocalPolicy
+shape_meta: ${shape_meta}
+
+# 仅包含跨环境共享的 Focal consistency-flow 数学参数。
+# 上游 focalpolicy.yaml 中的 FiLM down/mid/up conditioning 由本项目
+# ConditionalUnet1D 的 cond_predict_scale 路径提供；UNet 宽度由 capacity/*
+# 控制，输入编码由 encoder/* 控制，训练预算由 recipe/* 控制。
+
+horizon: ${horizon}
+n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+n_obs_steps: ${n_obs_steps}
+obs_as_global_cond: ${obs_as_global_cond}
+
+# UNet 容量由 config/capacity/* 唯一提供。
+
+eps: 1.0e-2
+time_scale: 99.0
+freq_weight: 1.0e-4
+sample_cfg:
+  tr_sampler: v0
+  P_mean_t: 0.6
+  P_std_t: 1.6
+  P_mean_r: 4.0
+  P_std_r: 1.6
+  ratio: 0.15

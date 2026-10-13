@@ -1,0 +1,6 @@
+# @package _global_
+# Upstream nominal H4/O2/A4 contains only 3 positions after the To-1 slice.
+# H8 is the smallest UNet-compatible horizon that preserves O2/A4 here.
+horizon: 8
+n_obs_steps: 2
+n_action_steps: 4

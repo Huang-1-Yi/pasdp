@@ -1,0 +1,44 @@
+# MetaWorld 点云任务适配层。文件名保留 mimicgen_abs_padp 前缀，便于与现有
+# Robomimic/PADP 配置并排比较；本任务不再使用 MimicGen HDF5 或 RGB 输入。
+name: metaworld_pointcloud
+
+shape_meta: &shape_meta
+  obs:
+    point_cloud:
+      # FocalPolicy Zarr 离线数据实际是 [1024, 6]；首轮消融只取 XYZ，
+      # 在线 runner 同样采样 1024 点，确保 train/eval 形状一致。
+      shape: [1024, 3]
+      type: point_cloud
+    agent_pos:
+      shape: [9]
+      type: low_dim
+  action:
+    shape: [4]
+
+env_runner:
+  _target_: diffusion_policy.envs.metaworld.metaworld_runner.MetaworldRunner
+  eval_episodes: 20
+  max_steps: 200
+  n_obs_steps: ${n_obs_steps}
+  n_action_steps: ${n_action_steps}
+  fps: 10
+  crf: 22
+  render_size: 84
+  tqdm_interval_sec: 5.0
+  task_name: ${task_name}
+  device: ${training.device}
+  use_point_crop: true
+  num_points: 1024
+
+dataset:
+  _target_: diffusion_policy.dataset.metaworld.metaworld_pointcloud_dataset.MetaWorldPointCloudDataset
+  zarr_path: ${dataset_path}
+  horizon: ${horizon}
+  n_obs_steps: ${dataset_obs_steps}
+  pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
+  pad_after: ${eval:'${n_action_steps}-1'}
+  seed: 42
+  val_ratio: 0.02
+  max_train_episodes: ${n_demo}
+  num_points: 1024
+  point_cloud_channels: 3

@@ -1,0 +1,7 @@
+# @package _global_
+horizon: 10
+n_obs_steps: 1
+n_action_steps: 1
+# BCRNN is trained recurrently over the complete ten-step dataset sequence,
+# while rollout consumes and emits one step at a time.
+dataset_obs_steps: ${horizon}

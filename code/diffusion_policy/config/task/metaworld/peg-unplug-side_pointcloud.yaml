@@ -1,0 +1,6 @@
+defaults:
+  - /task_schema: metaworld_pointcloud
+  - _self_
+
+name: metaworld_peg-unplug-side_pointcloud
+task_name: peg-unplug-side

@@ -1,0 +1,25 @@
+# @package _global_
+# 上游论文/仓库复现轨道。公平消融默认不要使用本 recipe，而使用
+# dp_robomimic 或 pointcloud；论文容量还需同时指定 capacity=large。
+dataloader:
+  batch_size: 128
+  num_workers: 8
+  shuffle: true
+  pin_memory: true
+  persistent_workers: false
+
+val_dataloader:
+  batch_size: 128
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: false
+
+training:
+  resume: false
+  freeze_encoder: false
+  num_epochs: 3000
+  rollout_every: 200
+  checkpoint_every: 200
+  uint8_to_gpu: false
+  enable_validation: true

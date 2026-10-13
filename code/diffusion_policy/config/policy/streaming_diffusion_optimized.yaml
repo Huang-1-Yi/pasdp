@@ -1,0 +1,30 @@
+# @package policy
+# Local optimized derivative with window weighting and deterministic chunk mapping.
+_target_: diffusion_policy.policy.streaming_diffusion_policy_optimized.OptimizedStreamingDiffusionPolicy
+shape_meta: ${shape_meta}
+
+noise_scheduler:
+  _target_: diffusion_policy.policy.common.schedulers.DDIMTEDiScheduler
+  num_train_timesteps: 100
+  beta_start: 0.0001
+  beta_end: 0.02
+  beta_schedule: squaredcos_cap_v2
+  clip_sample: true
+  set_alpha_to_one: true
+  steps_offset: 0
+  prediction_type: sample
+
+horizon: ${horizon}
+n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+n_obs_steps: ${n_obs_steps}
+num_inference_steps: 20
+obs_as_global_cond: ${obs_as_global_cond}
+temporally_constant_weight: 0.2
+temporally_increasing_weight: 0.0
+temporally_random_weights: 0.0
+chunk_wise_weight: 0.8
+window_loss_weights: chunk_exponential
+window_exp_gamma: 0.0
+window_min_weight: 0.02
+buffer_init: zero
+scheduler_step_kwargs: {}

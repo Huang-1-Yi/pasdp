@@ -1,0 +1,26 @@
+# @package _global_
+# PADP RTV8 recipe for Adroit pointcloud training.
+# shuffle=false required by RTV8 epoch mapping table (SequentialSampler).
+# Same training budget as recipe/pointcloud.yaml.
+dataloader:
+  batch_size: 128
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: false
+
+val_dataloader:
+  batch_size: 128
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  persistent_workers: false
+
+training:
+  resume: false
+  freeze_encoder: false
+  num_epochs: 1000
+  rollout_every: 100
+  checkpoint_every: 100
+  uint8_to_gpu: false
+  enable_validation: true

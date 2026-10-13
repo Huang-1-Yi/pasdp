@@ -1,0 +1,25 @@
+name: dual_aubo_real_image
+image_shape: [3, 240, 320]
+shape_meta:
+  obs:
+    camera_0:
+      shape: ${task.image_shape}
+      type: rgb
+    camera_1:
+      shape: ${task.image_shape}
+      type: rgb
+    left_robot_eef_pose:
+      shape: [6]
+      type: low_dim
+    left_gripper_state:
+      shape: [2]
+      type: low_dim
+    right_robot_eef_pose:
+      shape: [6]
+      type: low_dim
+    right_gripper_state:
+      shape: [1]
+      type: low_dim
+  # left xyz/rotvec (6), left DO00/DO01 (2), right xyz/rotvec (6), right DO00 (1).
+  action:
+    shape: [15]

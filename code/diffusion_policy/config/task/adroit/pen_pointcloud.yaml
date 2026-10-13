@@ -1,0 +1,14 @@
+name: adroit_pen_pointcloud
+task_name: pen
+num_points: 512
+
+shape_meta:
+  obs:
+    point_cloud:
+      shape: [512, 3]
+      type: point_cloud
+    agent_pos:
+      shape: [24]
+      type: low_dim
+  action:
+    shape: [24]

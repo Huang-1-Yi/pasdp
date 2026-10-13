@@ -1,0 +1,13 @@
+{
+  "source": "aubo_t265_teleop_bundle/.local",
+  "platform": "Linux x86_64 CPython 3.9",
+  "packages": {
+    "pyaubo-sdk": "0.26.0rc6",
+    "pyrealsense2": "2.53.1.4623"
+  },
+  "sha256": {
+    "aubo_sdk/pyaubo_sdk.cpython-39-x86_64-linux-gnu.so": "2e4130abe46fd42e77efa55f6350c54f07d21dcfe674c953ff92245ef4f0821c",
+    "rs-t265/pyrealsense2/pybackend2.cpython-39-x86_64-linux-gnu.so": "44fb6b482a171a7136c6b82ffc78ad34e6aec39abe2cfb7af1865747ad269f02",
+    "rs-t265/pyrealsense2/pyrealsense2.cpython-39-x86_64-linux-gnu.so": "7aceb28229629a82162913f79040ad318a357ac49e96f3ec4986b7ba4da6d8a5"
+  }
+}

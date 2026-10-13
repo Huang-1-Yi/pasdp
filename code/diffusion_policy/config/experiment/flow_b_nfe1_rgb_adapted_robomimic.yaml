@@ -1,0 +1,29 @@
+# @package _global_
+# Experiment B: FlowPolicy RGB adaptation at NFE=1 and action execution horizon 1.
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: flow_policy
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: flow_h4_obs2_action1
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: flow_b_nfe1_rgb_h4_o2_a1_${task_name}_seed${training.seed}
+output_group: pasdp_experiment_b
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  crop_shape: [76, 76]
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_b, flow_policy, nfe1, rgb_adapted]

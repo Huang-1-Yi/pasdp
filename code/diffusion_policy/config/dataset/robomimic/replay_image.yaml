@@ -1,0 +1,16 @@
+# @package task.dataset
+
+_target_: diffusion_policy.dataset.robomimic.replay_image_dataset.RobomimicReplayImageDataset
+n_demo: ${n_demo}
+shape_meta: ${task.shape_meta}
+dataset_path: ${dataset_path}
+horizon: ${horizon}
+pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
+pad_after: ${eval:'${n_action_steps}-1'}
+n_obs_steps: ${dataset_obs_steps}
+abs_action: ${task.abs_action}
+rotation_rep: rotation_6d
+use_legacy_normalizer: false
+use_cache: true
+seed: 42
+val_ratio: 0.02

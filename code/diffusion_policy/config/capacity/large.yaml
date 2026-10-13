@@ -1,0 +1,6 @@
+# @package policy
+diffusion_step_embed_dim: 128
+down_dims: [512, 1024, 2048]
+kernel_size: 5
+n_groups: 8
+cond_predict_scale: true

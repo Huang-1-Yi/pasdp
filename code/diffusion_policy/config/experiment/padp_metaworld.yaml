@@ -1,0 +1,25 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: padp
+  - /task: metaworld/door-close_pointcloud
+  - /dataset: metaworld/expert_pointcloud
+  - /env_runner: metaworld/default
+  - /policy: padp_positionwise
+  - /encoder: pointcloud/focal_xyz
+  - /capacity: base
+  - /temporal: padp_h40_obs1_action1
+  - /recipe: pointcloud
+  - /runtime: cuda
+  - _self_
+
+name: padp_metaworld_${policy.noise_schedule_mode}_${n_obs_steps}_${n_action_steps}_${horizon}_${window_exp_gamma}
+output_group: padp
+task_name: ${task.task_name}
+n_demo: 10
+dataset_path: data/metaworld_${task_name}_expert.zarr
+
+logging:
+  project: diffusion_policy_metaworld_${task_name}
+  name: padp_metaworld_${policy.noise_schedule_mode}_demo${n_demo}_h${horizon}_obs${n_obs_steps}_a${n_action_steps}_beta${window_exp_gamma}
+  tags: ["${name}", "${task_name}", "${exp_name}", "${policy.noise_schedule_mode}"]

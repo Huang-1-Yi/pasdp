@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: dp_ddim
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: dp_h16_obs2_action8
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: diff_c_ddim_40_1
+output_group: dp
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+logging:
+  project: diffusion_policy_${task_name}
+  name: diff_c_demo${n_demo}

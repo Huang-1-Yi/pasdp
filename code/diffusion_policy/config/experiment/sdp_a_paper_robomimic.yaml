@@ -1,0 +1,35 @@
+# @package _global_
+# Experiment A: Streaming Diffusion Policy paper/official DDIM configuration.
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: streaming_diffusion
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: sdp_h20_obs2_action8
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: sdp_a_paper_h20_o2_a8_t100_grid16_epsilon_${task_name}_seed${training.seed}
+output_group: pasdp_experiment_a
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  # The source observations are 84x84. Use the shared Robomimic RGB
+  # protocol: random 76x76 crop for training and center crop for evaluation.
+  crop_shape: [76, 76]
+  noise_scheduler:
+    num_train_timesteps: 100
+    prediction_type: epsilon
+  num_inference_steps: 16
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_a, sdp, paper_ddim, epsilon]

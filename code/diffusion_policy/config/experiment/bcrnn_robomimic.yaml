@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: bcrnn
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: robomimic_bcrnn
+  - /temporal: bcrnn_h10_obs1_action1
+  - /recipe: bcrnn_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: bcrnn_robomimic_${task_name}
+output_group: bcrnn
+exp_name: robomimic_native_bcrnn
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+logging:
+  project: bcrnn_${task_name}
+  name: ${name}
+  tags: [compare, bcrnn, robomimic, "${task_name}"]

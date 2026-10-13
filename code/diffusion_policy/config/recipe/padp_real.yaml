@@ -1,0 +1,28 @@
+# @package _global_
+dataloader:
+  batch_size: 16
+  num_workers: 4
+  shuffle: true
+  pin_memory: true
+  persistent_workers: true
+val_dataloader:
+  batch_size: 16
+  num_workers: 4
+  shuffle: false
+  pin_memory: true
+  persistent_workers: true
+training:
+  num_epochs: 300
+  resume: false
+  rollout_every: 20
+  checkpoint_every: 20
+  enable_validation: false
+  uint8_to_gpu: false
+  early_stopping:
+    enabled: false
+checkpoint:
+  topk:
+    monitor_key: train_loss
+    mode: min
+    k: 5
+    format_str: 'epoch{epoch:03d}_train_loss{train_loss:.6f}.ckpt'

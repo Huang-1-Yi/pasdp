@@ -1,6 +1,6 @@
 # Position-Aware Streaming Diffusion Policy
 
-Official project page for **Position-Aware Streaming Diffusion Policy (PASDP)**, a streaming diffusion policy for real-time robotic manipulation.
+Official project page and implementation for **Position-Aware Streaming Diffusion Policy (PASDP)**, a streaming diffusion policy for real-time robotic manipulation.
 
 ## Project Website
 
@@ -37,6 +37,7 @@ The competition was also reported and broadcast by CCTV.com, CCTV, Lecture Hall 
 ├── assets/css/site.css     # Page styles and responsive layout
 ├── images/                 # Figures, icons, and video posters
 ├── videos/                 # Web-ready demonstration videos
+├── code/                   # Algorithm source, configs, and vendored dependencies
 └── .nojekyll               # Serves the site directly with GitHub Pages
 ```
 
@@ -54,13 +55,13 @@ Then open <http://localhost:8000/> in a browser.
 
 ## Deployment with GitHub Pages
 
-The site is published from the `main` branch and the repository root. After committing the changes, deploy the latest version with:
+The site is published from `main` by [`.github/workflows/pages.yml`](.github/workflows/pages.yml). The workflow packages only the website assets, leaving the large `code/` tree in GitHub. After committing the changes, deploy the latest version with:
 
 ```powershell
 git push origin main
 ```
 
-If GitHub Pages has not been enabled for a fork of this repository, open **Settings → Pages**, select **Deploy from a branch**, and choose the `main` branch with the `/ (root)` directory.
+For this combined code-and-website repository, open **Settings → Pages → Build and deployment**, and choose **GitHub Actions** as the source. This is also required when switching from the previous root-branch deployment. After pushing, check the **Deploy project page** workflow in Actions.
 
 For a fork, the public URL normally follows this pattern:
 
@@ -76,9 +77,15 @@ Additional preparation and naming guidance is available in [`videos/README.md`](
 
 ## Codebase
 
-The associated implementation is available at:
+The implementation is included in this repository:
 
-- [PASDP codebase on Gitee](https://gitee.com/huang-1-yi/dp_pro6000.git)
+- [Source code](code/)
+- [Installation, training, and evaluation guide](code/README.md)
+- [Import provenance](code/SOURCE_IMPORT.md)
+
+Run algorithm commands from `code/` so dataset paths and local third-party dependencies resolve correctly. Datasets, training outputs, checkpoints, and local environments are excluded from Git.
+
+The source snapshot was imported from the [original Gitee repository](https://gitee.com/huang-1-yi/dp_pro6000) without its Git history. Vendored dependencies retain their upstream licenses.
 
 ## License and Attribution
 

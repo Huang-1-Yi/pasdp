@@ -1,0 +1,27 @@
+_target_: diffusion_policy.policy.padp.PADPPolicy
+shape_meta: ${shape_meta}
+
+noise_scheduler:
+  _target_: diffusers.schedulers.scheduling_ddim.DDIMScheduler
+  num_train_timesteps: ${horizon}
+  beta_start: 0.0001
+  beta_end: 0.02
+  beta_schedule: squaredcos_cap_v2
+  clip_sample: true
+  set_alpha_to_one: true
+  steps_offset: 0
+  prediction_type: sample
+
+noise_schedule_mode: positionwise
+noise_chunk_size: 1
+window_loss_weights: exponential
+window_exp_gamma: ${window_exp_gamma}
+
+horizon: ${horizon}
+n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+n_obs_steps: ${n_obs_steps}
+num_inference_steps: ${horizon}
+obs_as_global_cond: ${obs_as_global_cond}
+
+# UNet 容量由 config/capacity/* 唯一提供。
+pred_type: sample

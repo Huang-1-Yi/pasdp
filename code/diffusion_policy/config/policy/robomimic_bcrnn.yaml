@@ -1,0 +1,10 @@
+_target_: diffusion_policy.policy.robomimic_policy.RobomimicBCRNNPolicy
+shape_meta: ${shape_meta}
+algo_name: bc_rnn
+obs_type: image
+# Robomimic's paper-config generator has no MimicGen task identifiers.  The
+# square/ph preset supplies the canonical image BCRNN hyperparameters; actual
+# observation and action shapes are replaced from shape_meta above.
+task_name: square
+dataset_type: ph
+crop_shape: [76, 76]

@@ -10,3 +10,39 @@ desktop.ini
 # Original video footage; only web-ready files in videos/ are committed
 videos/raw/
 videos/originals/
+
+# Algorithm datasets, generated results, and local Python environments
+/code/data/
+/code/outputs/
+/code/run_logs/
+/code/wandb/
+/code/.venv/
+/code/venv/
+/code/env/
+/code/.conda/
+/code/**/__pycache__/
+/code/**/*.py[cod]
+/code/**/*.ckpt
+/code/**/*.pth
+/code/**/*.pt
+/code/**/*.hdf5
+/code/**/*.h5
+/code/**/*.zarr/
+/code/**/.pytest_cache/
+/code/**/.mypy_cache/
+/code/**/.ruff_cache/
+
+# Robot models, meshes, textures, SDKs, and wheels in code/third_party
+# are runtime dependencies, not generated training artifacts.
+!/code/third_party/pytorch3d/docs/tutorials/data/camera_graph.pth
+!/code/third_party/pytorch3d/tests/data/icp_data.pth
+!/code/third_party/pytorch3d/tests/data/objectron_vols_ious.pt
+!/code/third_party/pytorch3d/tests/pulsar/reference/nr0000-in.pth
+!/code/third_party/pytorch3d/tests/pulsar/reference/nr0000-out.pth
+!/code/third_party/pytorch3d/tests/weights.pt
+!/code/third_party/robosuite/robosuite/models/assets/demonstrations/handover/panda_panda/demo.hdf5
+!/code/third_party/robosuite/robosuite/models/assets/demonstrations/lift/demo.hdf5
+!/code/third_party/robosuite/robosuite/models/assets/demonstrations/wipe/panda/demo.hdf5
+
+# Generated GitHub Pages artifact
+/_site/

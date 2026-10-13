@@ -1,0 +1,29 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: padp
+  - /task: metaworld/door-close_pointcloud
+  # PADP RTV8 dataset: 物理化 padding + epoch 映射表 + window_info
+  # 对比标准 dataset 时 override: dataset=metaworld/expert_pointcloud recipe=pointcloud
+  - /dataset: metaworld/expert_pointcloud_padp
+  - /env_runner: metaworld/default
+  - /policy: padp_positionwise
+  - /encoder: pointcloud/focal_xyz
+  - /capacity: base
+  - /temporal: padp_h12_obs2_action4
+  - /recipe: padp_metaworld
+  - /runtime: cuda
+  - _self_
+
+name: compare_padp_metaworld_${task_name}_seed${training.seed}
+output_group: padp
+exp_name: pointcloud_policy_compare
+task_name: ${task.task_name}
+n_demo: 10
+dataset_path: data/metaworld_${task_name}_expert.zarr
+
+logging:
+  project: pointcloud_metaworld_${task_name}
+  resume: false
+  name: ${name}
+  tags: [compare, padp, metaworld, pointcloud, "${task_name}"]

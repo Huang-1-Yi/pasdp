@@ -1,0 +1,13 @@
+# @package _global_
+training:
+  device: cpu
+dataloader:
+  num_workers: 0
+  pin_memory: false
+  persistent_workers: false
+val_dataloader:
+  num_workers: 0
+  pin_memory: false
+  persistent_workers: false
+logging:
+  mode: offline

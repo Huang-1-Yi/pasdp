@@ -1,0 +1,33 @@
+# @package _global_
+# Experiment B: DP at NFE=1 and action execution horizon 1; paper epsilon target retained.
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: dp_ddim
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: dp_h16_obs2_action1
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: dp_b_nfe1_h16_o2_a1_t100_epsilon_${task_name}_seed${training.seed}
+output_group: pasdp_experiment_b
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  crop_shape: [76, 76]
+  noise_scheduler:
+    num_train_timesteps: 100
+    prediction_type: epsilon
+  num_inference_steps: 1
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_b, dp, nfe1, epsilon]

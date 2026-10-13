@@ -1,0 +1,27 @@
+# Local environments and tool caches
+.venv/
+venv/
+.conda/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+!third_party/mj_envs/mj_envs.egg-info/
+!third_party/mj_envs/mj_envs.egg-info/**
+!third_party/mjrl/mjrl.egg-info/
+!third_party/mjrl/mjrl.egg-info/**
+.vscode/
+.idea/
+
+# Generated experiment files; installed third-party source stays in Git
+/data/
+/outputs/
+/run_logs/
+/wandb/
+/build/
+/dist/
+.env
+.env.*

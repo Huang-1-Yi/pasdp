@@ -1,0 +1,14 @@
+# @package task
+
+num_points: 1024
+
+shape_meta:
+  obs:
+    point_cloud:
+      shape: [1024, 3]
+      type: point_cloud
+    agent_pos:
+      shape: [9]
+      type: low_dim
+  action:
+    shape: [4]

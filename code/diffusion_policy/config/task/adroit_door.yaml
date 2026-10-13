@@ -1,0 +1,40 @@
+name: adroit_door_pointcloud
+task_name: door
+
+shape_meta: &shape_meta
+  obs:
+    point_cloud:
+      shape: [512, 3]
+      type: point_cloud
+    agent_pos:
+      shape: [24]
+      type: low_dim
+  action:
+    shape: [28]
+
+env_runner:
+  _target_: diffusion_policy.envs.adroit.adroit_runner.AdroitRunner
+  eval_episodes: 20
+  max_steps: 300
+  n_obs_steps: ${n_obs_steps}
+  n_action_steps: ${n_action_steps}
+  fps: 10
+  crf: 22
+  render_size: 84
+  tqdm_interval_sec: 5.0
+  task_name: ${task.task_name}
+  use_point_crop: true
+
+dataset:
+  _target_: diffusion_policy.dataset.adroit.adroit_pointcloud_dataset.AdroitPointCloudDataset
+  zarr_path: ${dataset_path}
+  horizon: ${horizon}
+  n_obs_steps: ${dataset_obs_steps}
+  pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
+  pad_after: ${eval:'${n_action_steps}-1'}
+  seed: 42
+  val_ratio: 0.02
+  max_train_episodes: ${n_demo}
+  task_name: ${task.task_name}
+  num_points: 512
+  point_cloud_channels: 3

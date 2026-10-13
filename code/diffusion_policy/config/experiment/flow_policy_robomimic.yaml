@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: flow_policy
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: flow_h40_obs2_action8
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: flow_policy_robomimic_${task_name}_seed${training.seed}
+output_group: flow_policy
+task_name: stack_d1
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+logging:
+  project: flow_policy_${task_name}
+  name: ${name}

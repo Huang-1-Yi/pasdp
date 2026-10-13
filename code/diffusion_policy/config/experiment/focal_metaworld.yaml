@@ -1,0 +1,29 @@
+# @package _global_
+# FocalPolicy + MetaWorld 点云正式入口。默认参数用于公平消融；上游复现
+# 追加 capacity=large recipe=focal_upstream。
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: metaworld/door-close_pointcloud
+  - /dataset: metaworld/expert_pointcloud
+  - /env_runner: metaworld/default
+  - /policy: focal_flow
+  - /encoder: pointcloud/focal_xyz
+  - /capacity: base
+  - /temporal: focal_h12_obs2_action4
+  - /recipe: pointcloud
+  - /runtime: cuda
+  - _self_
+
+name: focal_metaworld_${task_name}_seed${training.seed}
+output_group: focal
+exp_name: pointcloud_policy_compare
+task_name: ${task.task_name}
+n_demo: 10
+dataset_path: data/metaworld_${task_name}_expert.zarr
+
+logging:
+  project: pointcloud_metaworld_${task_name}
+  resume: false
+  name: ${name}
+  tags: [compare, focal, metaworld, pointcloud, "${task_name}"]

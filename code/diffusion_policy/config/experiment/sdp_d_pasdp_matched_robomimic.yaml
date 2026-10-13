@@ -1,0 +1,33 @@
+# @package _global_
+# Experiment D: SDP adapted to PASDP policy parameters, including sample target.
+defaults:
+  - /base: train_common
+  - /workspace: policy
+  - /task: robomimic/mimicgen_abs
+  - /dataset: robomimic/replay_image
+  - /env_runner: robomimic/standard
+  - /policy: streaming_diffusion
+  - /encoder: rgb/robomimic_raw
+  - /capacity: base
+  - /temporal: pasdp_matched_h40_obs1_action1
+  - /recipe: dp_robomimic
+  - /runtime: cuda
+  - _self_
+
+name: sdp_d_pasdp_matched_h40_o1_a1_t40_grid40_sample_${task_name}_seed${training.seed}
+output_group: pasdp_experiment_d
+task_name: coffee_d0
+n_demo: 200
+dataset_path: data/robomimic/datasets/${task_name}/${task_name}_abs.hdf5
+
+policy:
+  crop_shape: [76, 76]
+  noise_scheduler:
+    num_train_timesteps: 40
+    prediction_type: sample
+  num_inference_steps: 40
+
+logging:
+  project: pasdp_paper_${task_name}
+  name: ${name}
+  tags: [experiment_d, sdp, pasdp_matched, sample]

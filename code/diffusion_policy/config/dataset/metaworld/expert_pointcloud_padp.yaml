@@ -1,0 +1,14 @@
+# @package task.dataset
+
+_target_: diffusion_policy.dataset.metaworld.metaworld_pointcloud_dataset_padp.MetaWorldPointCloudDatasetPadp
+zarr_path: ${dataset_path}
+horizon: ${horizon}
+n_obs_steps: ${dataset_obs_steps}
+n_action_steps: ${n_action_steps}
+seed: 42
+val_ratio: 0.02
+n_demo: ${n_demo}
+num_points: ${task.num_points}
+point_cloud_channels: 3
+batch_size: ${dataloader.batch_size}
+num_epochs: ${training.num_epochs}

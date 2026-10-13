@@ -1,0 +1,85 @@
+# 本目录保存项目实际使用的固定版本第三方源码。
+# 更新任一源码时，必须同步修改提交号、环境文件和 README_v3.md，并重新跑训练/eval 冒烟测试。
+
+robosuite:
+  version: 1.4.1
+  repository: https://github.com/ARISE-Initiative/robosuite.git
+  commit: b9d8d3de5e3dfd1724f4a0e6555246c460407daa
+  local_changes:
+    - 调整 vendored 源码的忽略规则，确保运行时 JPG 纹理进入主仓库
+
+robomimic:
+  version: 0.3.0
+  repository: https://github.com/pointW/robomimic.git
+  commit: 8aad5b3caaaac9289b1504438a7f5d3a76d06c07
+  local_changes:
+    - 注释停用 env_robosuite.py 对 Open3D 的顶层导入，原代码保留在原位置
+    - 注释停用 RGB rollout 中无条件执行的点云与体素生成，原代码保留在原位置
+    - 关闭当前 RGB/低维任务不需要的深度图渲染
+
+robosuite_task_zoo:
+  version: "0.1"
+  repository: https://github.com/pointW/robosuite-task-zoo.git
+  commit: 0f8a7b2fa5d192e4e8800bebfe8090b28926f3ed
+  local_changes: []
+
+mimicgen:
+  version: 0.1.0
+  package_name: mimicgen_envs
+  repository: https://github.com/NVlabs/mimicgen.git
+  commit: 081f7dbbe5fff17b28c67ce8ec87c371f32526a9
+  install_mode: editable
+  install_reason: 上游 setup.py 构建普通 wheel 时不会收录 mimicgen_envs/models 及其资源
+  local_changes: []
+
+pytorch3d:
+  version: 0.7.9
+  repository: https://github.com/facebookresearch/pytorch3d.git
+  commit: 4daa00b41c52455440b938d1b676e00935b204d7
+  install_artifact: wheels/pytorch3d-0.7.9-py3-none-any.whl
+  build: no-extension
+  local_changes:
+    - wheel 不包含 CUDA/C++ 扩展，仅覆盖本项目使用的纯 Python 接口
+
+# 以下四个目录来自 FocalPolicy 仓库 third_party，保持源码原样，便于与
+# 上游复现代码逐文件比较。项目适配代码位于 diffusion_policy/envs，
+# 不直接修改这些 vendored 包。
+metaworld_focal:
+  version: 0.1.0
+  repository: https://github.com/rlworkgroup/metaworld.git
+  source_repository: https://github.com/focalpolicy/focalpolicy.git
+  source_path: third_party/Metaworld
+  source_commit: 2d7dc3162acb2c3cee4dd5a726bb46a8ace4625a
+  path: third_party/Metaworld
+  install_mode: editable-no-deps
+  local_changes: []
+
+mujoco_py_focal:
+  version: 2.1.2.14
+  repository: https://github.com/openai/mujoco-py.git
+  source_repository: https://github.com/focalpolicy/focalpolicy.git
+  source_path: third_party/mujoco-py-2.1.2.14
+  source_commit: 2d7dc3162acb2c3cee4dd5a726bb46a8ace4625a
+  path: third_party/mujoco-py-2.1.2.14
+  install_mode: editable-no-deps
+  local_changes: []
+
+mj_envs_focal:
+  version: 1.0.0
+  repository: https://github.com/vikashplus/mj_envs.git
+  source_repository: https://github.com/focalpolicy/focalpolicy.git
+  source_path: third_party/rrl-dependencies/mj_envs
+  source_commit: 2d7dc3162acb2c3cee4dd5a726bb46a8ace4625a
+  path: third_party/mj_envs
+  install_mode: editable-no-deps
+  local_changes: []
+
+mjrl_focal:
+  version: 1.0.0
+  repository: https://github.com/aravindr93/mjrl.git
+  source_repository: https://github.com/focalpolicy/focalpolicy.git
+  source_path: third_party/rrl-dependencies/mjrl
+  source_commit: 2d7dc3162acb2c3cee4dd5a726bb46a8ace4625a
+  path: third_party/mjrl
+  install_mode: editable-no-deps
+  local_changes: []

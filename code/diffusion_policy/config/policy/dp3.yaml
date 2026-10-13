@@ -1,0 +1,35 @@
+# @package policy
+_target_: diffusion_policy.policy.dp3.DP3
+shape_meta: ${shape_meta}
+
+noise_scheduler:
+  _target_: diffusers.schedulers.scheduling_ddim.DDIMScheduler
+  num_train_timesteps: 100
+  beta_start: 0.0001
+  beta_end: 0.02
+  beta_schedule: squaredcos_cap_v2
+  clip_sample: true
+  set_alpha_to_one: true
+  steps_offset: 0
+  prediction_type: sample
+
+horizon: ${horizon}
+n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+n_obs_steps: ${n_obs_steps}
+num_inference_steps: 10
+obs_as_global_cond: ${obs_as_global_cond}
+condition_type: film
+use_down_condition: true
+use_mid_condition: true
+use_up_condition: true
+encoder_output_dim: 64
+crop_shape: null
+use_pc_color: false
+pointnet_type: pointnet
+scheduler_step_kwargs: {}
+pointcloud_encoder_cfg:
+  in_channels: 3
+  out_channels: 64
+  use_layernorm: true
+  final_norm: layernorm
+  normal_channel: false

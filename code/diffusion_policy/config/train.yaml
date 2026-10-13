@@ -1,0 +1,7 @@
+defaults:
+  - experiment: dp_robomimic
+  - _self_
+
+# 通用组合入口。示例：
+#   experiment=padp_adroit task=adroit/hammer_pointcloud
+#   experiment=padp_robomimic encoder=rgb/timm_convnext_tiny

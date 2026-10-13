@@ -1,0 +1,5 @@
+# @package _global_
+training:
+  device: cuda:0
+logging:
+  mode: offline
