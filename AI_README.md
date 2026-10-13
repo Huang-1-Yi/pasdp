@@ -57,7 +57,7 @@ The current section order in `index.html` is:
 3. Abstract
 4. Paper section — intentionally hidden in an HTML comment
 5. Code and Tutorial
-6. Team
+6. Team — default-collapsed; click the summary to show the repeated author / affiliation information. The title-header author list remains visible.
 7. BibTeX section — intentionally hidden in an HTML comment
 8. Method
    - Position-Dependent Corruption

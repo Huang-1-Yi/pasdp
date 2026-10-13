@@ -257,6 +257,10 @@ video {
   outline-offset: 4px;
 }
 
+#team[open] > .authors {
+  margin-top: 1em;
+}
+
 .ablation-figure {
   margin: 1.2em 0;
 }
