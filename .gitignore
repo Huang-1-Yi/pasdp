@@ -6,6 +6,8 @@ desktop.ini
 # Local temporary files
 *.tmp
 *.log
+/tools/__pycache__/
+/tools/*.py[cod]
 
 # Original video footage; only web-ready files in videos/ are committed
 videos/raw/

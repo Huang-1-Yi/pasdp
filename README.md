@@ -10,13 +10,29 @@ The website presents the method, simulation results, real-world experiments, and
 
 ## Highlights
 
-- Up to **7× faster action generation**
-- More than **4× faster robot execution**
-- Approximately **11 ms** policy-inference latency in the reported real-world experiments
-- Competitive performance across 10 Robomimic simulation tasks
+- **77.0%** macro-average success across ten Robomimic tasks with **18 ms** policy inference
+- Approximately **11 ms** real-world perception-to-command latency (image acquisition through command issuance)
+- Sequential picking-and-stacking at **2× and 4×** execution-rate settings, completing all four stages in **100%** of 20 trials per setting
+- Separate common-H / NFE comparisons and method-dependent configurations, without treating them as fully matched closed-loop settings
 - Real-world conveyor-manipulation demonstrations
 - Qualitative DP-versus-PASDP comparison experiments for cup stacking and jelly grasping
 - **First Prize (1st place)** in the Manufacturing Category — Collaborative Robot Operation Task Challenge at the 2025 Intelligent Robot Competition
+
+## Reported Results and Provenance
+
+The page's eight result tables follow the current `PSADP_v29.tex` manuscript. Component ablations, the Square-task parameter sweep, evaluation protocols, and latency definitions are included. Figures from the earlier TRO manuscript are reused only where compatible with the current manuscript; its legacy baseline numbers and speed claims are not carried over.
+
+These are manuscript-reported results, not an independent audit of raw experiment logs. See [the alignment record](PAPER_ALIGNMENT.md) and [the machine-readable table snapshot](assets/data/paper-provenance.json).
+
+The earlier TRO appendix's observation-history, batch-size, and demonstration-budget studies are available in a default-collapsed **Earlier Development Ablations** block below Table VI. These author-confirmed preliminary studies precede that parameter selection and retain a [separate historical snapshot](assets/data/legacy-development-results.json); they are not current benchmark results.
+
+A read-only consistency check is available:
+
+```powershell
+python tools/check_paper_alignment.py --paper "C:\Users\46462\Desktop\TIE(3)\PASDP\PSADP_v29.tex"
+```
+
+The checker compares all table rows directly with the supplied manuscript, validates the ablation chart, checks the source hash, and checks local media references and muted autoplay settings. It does not establish that the reported experiments used the claimed configurations. Paper and BibTeX links remain hidden until final publication details are available.
 
 ## Competition Recognition
 
@@ -71,7 +87,7 @@ https://<github-username>.github.io/<repository-name>/
 
 ## Video Assets
 
-The videos use browser-compatible MP4/H.264 encoding. The page loads poster images and video metadata first, so visitors do not download every full video when the page opens.
+The videos use browser-compatible MP4/H.264 encoding with poster images. All 20 players autoplay muted and loop; browsers may begin streaming video data immediately despite the metadata preload hint.
 
 Additional preparation and naming guidance is available in [`videos/README.md`](videos/README.md).
 

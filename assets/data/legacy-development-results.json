@@ -1,0 +1,96 @@
+{
+  "source": "PADPv0503.tex",
+  "source_sha256": "f690075833f18cc72b0a9eb60233500c4d4d7c88ac258cd60932e982d79f493b",
+  "source_section": "TRO appendix: Ablation Experiment",
+  "chronology": "Completed before Table VI parameter selection, as confirmed by the authors; not inferred from table values.",
+  "scope": "Archived development studies, separate from the current manuscript's eight result tables. Task identity and per-study evaluation seeds/counts are not specified in these appendix tables. No independent raw-log audit.",
+  "tables": {
+    "obs_steps_ablation": [
+      [
+        "PADP",
+        "2",
+        "40",
+        "β = 0.2",
+        "1",
+        "Single-step",
+        "91.3"
+      ],
+      [
+        "PADP",
+        "1",
+        "40",
+        "β = 0.2",
+        "1",
+        "Single-step",
+        "96.5"
+      ],
+      [
+        "DP",
+        "2",
+        "16",
+        "≡ 1",
+        "8",
+        "Multi-step",
+        "94.0"
+      ],
+      [
+        "DP",
+        "1",
+        "16",
+        "≡ 1",
+        "8",
+        "Multi-step",
+        "62.0"
+      ]
+    ],
+    "batch_size_ablation": [
+      [
+        "8",
+        "91.3"
+      ],
+      [
+        "16",
+        "93.1"
+      ],
+      [
+        "32",
+        "65.5"
+      ],
+      [
+        "64",
+        "96.5"
+      ],
+      [
+        "128",
+        "93.1"
+      ]
+    ],
+    "data_size_ablation": [
+      [
+        "50",
+        "36.2",
+        "25.8"
+      ],
+      [
+        "100",
+        "81.0",
+        "65.5"
+      ],
+      [
+        "200",
+        "96.5",
+        "93.1"
+      ],
+      [
+        "400",
+        "98.2",
+        "100.0"
+      ],
+      [
+        "1000",
+        "100.0",
+        "100.0"
+      ]
+    ]
+  }
+}

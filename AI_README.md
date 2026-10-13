@@ -2,6 +2,7 @@
 
 > Audience: AI coding agents and future maintainers.  
 > Source-code integration verified: 2026-10-13.
+> Website results aligned with `PSADP_v29.tex`: 2026-10-13.
 > Public-facing documentation remains in `README.md`; do not replace it with this file.
 
 ## 1. Project Purpose
@@ -27,6 +28,10 @@ The site is a dependency-free static website. It uses plain HTML and CSS and has
 - `.gitignore`: excludes original footage and local temporary files
 - `.nojekyll`: tells GitHub Pages to serve the static files directly
 - `ATTRIBUTION.md`: third-party source and media attribution
+- `PAPER_ALIGNMENT.md`: authoritative manuscript, exact source hashes, table mapping, and legacy-asset decisions
+- `assets/data/paper-provenance.json`: manuscript-reported snapshot of all eight tables; no local private paths
+- `assets/data/legacy-development-results.json`: separately labeled historical TRO appendix results; never mix with the current eight tables
+- `tools/check_paper_alignment.py`: read-only table, chart, source-hash, media-link, and autoplay validator
 - `README.md`: short English README for human visitors
 - `code/README.md`: English installation, training, and evaluation entry point
 - `code/README_UPSTREAM.md`: preserved original source README
@@ -46,8 +51,9 @@ The current section order in `index.html` is:
    - Subtitle: for Real-Time Robotic Manipulation
    - Authors, affiliations, and corresponding-author contact are populated.
 2. Performance highlights
-   - Claims: **7× faster action generation** and **4×+ faster execution**
+   - Reported metrics: **18 ms simulation policy inference** and **11 ms real-world perception-to-command latency**
    - Three videos: 1×, 2×, and 4× motion
+   - The clips illustrate execution-rate settings, not latency ratios or quantitative trial averages.
 3. Abstract
 4. Paper section — intentionally hidden in an HTML comment
 5. Code and Tutorial
@@ -58,11 +64,13 @@ The current section order in `index.html` is:
    - Position-Weighted Objective
    - Sliding-Buffer Streaming Inference
 9. Experiments
-   - Simulation Experiments: 10 Robomimic tasks and summary tables
-   - Real-World Experiments: two result tables and six detailed comparison videos
-   - Parameter Sensitivity placeholder
+   - Simulation Experiments: 10 Robomimic tasks, Table I, protocol, and collapsible Tables II–IV
+   - Real-World Experiments: platform and task figures, Tables VII–VIII, six detailed comparison videos
+   - Component Ablations: chart and collapsible full Table V
+   - Parameter Sensitivity: development-task heatmap / Table VI and selection criterion
+   - Earlier Development Ablations: default-collapsed TRO appendix tables for observation steps, batch size, and demonstration count
 10. Competition recognition
-11. Acknowledgements
+11. Acknowledgements — hidden until authoritative text is supplied
 12. Contact
 
 Do not expose the Paper or BibTeX sections until the user supplies final paper and citation information.
@@ -158,6 +166,9 @@ The visual direction is a restrained academic project page rather than a marketi
 - Video frames: fixed `26 / 15` aspect ratio with `object-fit: contain`
 - Desktop video grids: three columns for speed and comparison videos
 - Mobile breakpoint: `760px`; major grids collapse to one column
+- Real-world platform introduction: the platform/protocol paragraph appears immediately below the section heading, followed by a centered photograph with maximum width 680px. The photograph scales down to fit mobile screens; no side-by-side layout. The separate task-overview figure remains full width.
+- Table VI is content-width rather than page-width. Its latency label spans the two leading columns so it cannot inflate the beta column; keep the beta and w_7 columns compact.
+- The Earlier Development Ablations details block is content-width, centered, and capped at 46em (or available screen width). Its three tables remain centered. Do not apply this narrower layout to the separate Extended simulation comparisons block.
 
 Maintain the paper-like hierarchy, generous whitespace, and restrained palette. Reuse existing classes before adding new ones.
 
@@ -171,16 +182,21 @@ Maintain the paper-like hierarchy, generous whitespace, and restrained palette. 
 - External links that open a new tab must retain `rel="noopener noreferrer"`.
 - Preserve Unicode filenames exactly; do not transliterate existing paths unless all references and Git history implications are handled deliberately.
 
-## 9. Known Placeholders
+## 9. Manuscript Alignment and Hidden Content
 
-The following content is intentionally unfinished:
+All website experiment numbers must match `C:\Users\46462\Desktop\TIE(3)\PASDP\PSADP_v29.tex` (see source SHA-256 in `PAPER_ALIGNMENT.md`). Never restore older TRO results simply because a diagram or old table contains them. Do not infer configurations from equal results.
 
-- Method figure
-- Parameter-sensitivity / ablation figure
-- Paper link and preview, currently hidden
-- BibTeX entry, currently hidden
+- Table I: common H = 40 / NFE = 1; DP-x₀ 73.8% / 18 ms, SDP-x₀ 26.7% / 18 ms. Other settings may differ.
+- Table II: method-dependent settings; DP-ε 75.2% / 83 ms, SDP-ε 75.8% / 74 ms; not a fully matched closed-loop comparison.
+- Table III: keep Tₐ = 1 and Tₐ = 8 groups distinct. SDP-ε 49.0% / 24 ms is the former; 0.3% / 21 ms is the latter. These are separately trained checkpoints.
+- Table IV: do not confuse PASDP H = 40 / Tₐ = 1 with DP H = 16 / Tₐ = 8.
+- Table V: no buffer reuse costs 41 NFE per decision, not one.
+- Table VI: Square development task, seed 10000, not the ten-task benchmark. Selected 94.8% differs from the highest 96.6%. The separate-workstation 16 ms timing is not the main-platform 18 ms timing.
+- Tables VII–VIII: use perception-to-command latency, not pure policy inference. Task 1 has 20 independent trials per setting; Task 2 accumulates 80 successful grasps and normalizes time and arrivals to ten.
+- The top motion demonstrations are illustrative clips and are not substituted for table trial averages.
+- The author confirms the earlier TRO appendix development ablations preceded Table VI parameter selection. Keep them in the separate, default-collapsed `earlier-development-ablations` details element. Preserve the historical name PADP and all 14 source rows. Do not label the archived 96.5% as the current benchmark, infer a task or rollout protocol, or equate old execution-mode labels with NFE. Their table sections do not identify per-study task/seeds/episode counts.
 
-Do not invent these details. Leave the placeholders or hidden sections intact until the user provides authoritative content.
+Paper, BibTeX, and Acknowledgements remain commented out. Do not invent publication, funding, or citation details. No visible method / ablation placeholders remain. Do not claim the manuscript-alignment check independently validates the raw experiment evidence.
 
 ## 10. GitHub Pages and Deployment
 
@@ -213,6 +229,8 @@ After editing:
 5. Confirm the Paper and BibTeX blocks remain commented out.
 6. Preview with `python -m http.server 8000` when layout or media behavior changes.
 7. Report what changed and whether the changes were only local or were pushed.
+8. Run `python tools/check_paper_alignment.py --paper "C:\Users\46462\Desktop\TIE(3)\PASDP\PSADP_v29.tex"`. All eight tables, 51 rows, chart values, and source hashes must pass. Manually recheck prose, caption definitions, and any numbers embedded in imported figures after a manuscript revision.
+9. For archived appendix verification, append `--legacy-paper "C:\Users\46462\Desktop\TRO0502\PADPv0503\PADPv0503.tex"`. This additionally checks all three historical tables / 14 rows against the original TeX and its hash, and ensures the block is collapsed by default.
 
 Avoid destructive Git commands, deleting original media, replacing user work, or recompressing every video by default.
 

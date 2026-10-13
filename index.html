@@ -31,19 +31,20 @@
       <div class="showcase-heading">
         <p class="eyebrow">Real-Time Performance</p>
         <h3 id="highlights-title">Fast generation, faster execution</h3>
-        <p>PASDP streams action updates across control cycles, reducing policy latency while enabling substantially faster robot motion.</p>
+        <p>PASDP updates retained action predictions using the latest observation, with one network evaluation per steady-state policy inference.</p>
       </div>
 
-      <div class="metric-strip" aria-label="PASDP speed improvements">
+      <div class="metric-strip" aria-label="Reported PASDP operating points">
         <div class="performance-metric">
-          <strong>7×</strong>
-          <span>faster action generation</span>
+          <strong>18 ms</strong>
+          <span>simulation policy inference</span>
         </div>
         <div class="performance-metric">
-          <strong>4×+</strong>
-          <span>faster execution</span>
+          <strong>11 ms</strong>
+          <span>real-world perception-to-command</span>
         </div>
       </div>
+      <p class="showcase-note">Execution-rate demonstrations at 1×, 2×, and 4× are shown below. These motion settings are not inference-speed ratios or the quantitative trial averages reported in the tables.</p>
 
       <div class="video-grid speed-video-grid" aria-label="Execution speed comparison">
         <article class="video-card">
@@ -84,14 +85,14 @@
           </div>
           <div class="video-card-copy">
             <h4>4× Motion</h4>
-            <p>Accelerated execution enabled by low-latency streaming inference.</p>
+            <p>Temporally compressed execution at the 4× motion setting.</p>
           </div>
         </article>
       </div>
     </section>
 
     <section aria-label="Abstract">
-      <p class="abstract">Diffusion policies model multimodal action distributions effectively, but their iterative denoising process can introduce substantial latency in closed-loop robotic manipulation. Continuous control offers a different allocation of this computation: the next action must be available immediately, whereas later actions can be updated after new observations arrive. We therefore propose the Position-Aware Streaming Diffusion Policy (PASDP), which distributes action generation and updating across successive control cycles. During training, PASDP applies stronger Gaussian corruption to distal action positions and near-clean inputs to proximal positions. A position-weighted objective assigns greater importance to actions closer to execution. During inference, PASDP maintains a sliding action buffer. Each control cycle removes the executed action, appends Gaussian noise at the distal end, and re-predicts the complete buffer from the latest observation. One network evaluation thus generates a new distal action and updates the unexecuted predictions carried from the previous cycle. Each policy inference uses one network evaluation, while a future execution slot can be updated over multiple cycles before reaching the buffer head. On 10 Robomimic tasks, PASDP reduced policy-inference latency by more than one order of magnitude while maintaining competitive average success. On two real-world conveyor-manipulation tasks, it achieved an inference latency of 11 ms and improved task-completion outcomes over Diffusion Policy under the evaluated conditions.</p>
+      <p class="abstract">Diffusion policies effectively model multimodal action distributions, but iterative denoising introduces latency in closed-loop manipulation. PASDP aligns position-indexed Gaussian corruption during training with the movement of retained action predictions through a persistent buffer during inference. The network predicts clean actions without an explicit diffusion-timestep or per-action noise-level input. In the canonical N = 1 mode, each control cycle executes the buffer-head action, shifts retained predictions, appends Gaussian noise at the tail, and updates the complete buffer from the latest observation in one network evaluation. Future predictions can therefore be refined across successive control cycles before execution. On ten Robomimic tasks, PASDP achieves 77.0% macro-average success with 18 ms policy inference, compared with 75.2% at 83 ms for the evaluated iterative DP baseline under method-dependent configurations. In two real-world conveyor tasks, PASDP reaches more stages in sequential picking-and-stacking and requires fewer arriving objects per ten successful grasps than the evaluated DP baseline.</p>
     </section>
 
     <hr>
@@ -140,7 +141,10 @@
       <h3>Position-Aware Streaming Diffusion Policy</h3>
       <p>PASDP uses the action position to organize both training and closed-loop inference. During training, the corruption level decreases from the buffer tail to the execution head. During inference, the same ordering is used in a persistent action buffer. A future execution slot enters at the tail and is re-predicted after each buffer shift until it reaches the head.</p>
 
-      <div class="wide-placeholder">Method figure to be added</div>
+      <figure class="paper-figure">
+        <a href="images/figures/pasdp-method.png" target="_blank" rel="noopener noreferrer"><img src="images/figures/pasdp-method.png" alt="Iterative DP denoising versus PASDP persistent-buffer updates across consecutive control cycles" width="2400" height="1237" loading="lazy"></a>
+        <figcaption>Method overview (manuscript Fig. 2). In the canonical N = 1 mode, PASDP executes the head, retains and shifts future predictions, appends noise at the tail, and updates the complete buffer once using the latest observation. Click to enlarge.</figcaption>
+      </figure>
 
       <h4>Position-Dependent Corruption</h4>
       <p>In the standard N = 1 mode, the position index specifies both the order within the prediction horizon and the number of buffer shifts remaining before execution. Distal positions receive stronger Gaussian corruption, while the final position receives pure Gaussian noise.</p>
@@ -158,7 +162,8 @@
       <h3>Experiments</h3>
 
       <h4>Simulation Experiments</h4>
-      <p>Experiments are conducted on 10 Robomimic tasks. Under the reported common prediction horizon of H = 40, PASDP achieves an average success rate of 77.0% with an inference latency of approximately 18 ms. Diffusion Policy achieves an average success rate of 75.9% with an inference latency of 261 ms.</p>
+      <p>Across ten Robomimic tasks, PASDP achieves 77.0% macro-average success with 18 ms policy inference. The primary comparison uses H = 40 and NFE = 1 for all four methods; method-specific settings may still differ. Iterative baselines under their own configurations are reported separately below.</p>
+      <p class="protocol-note">Reported simulation protocol: 200 demonstrations per task, 250 training epochs, batch size 64, and training seed 42. Checkpoints are selected on 30 validation episodes (seeds 100000–100029); final results use 100 test episodes per task (seeds 20000–20099). Latency includes visual encoding and action generation after warm-up on an AMD EPYC 7K62 / RTX 4090 platform, excludes environment stepping and PASDP's one-time buffer initialization, and is rounded to milliseconds. Results are single-seed estimates.</p>
 
       <div class="simulation-task-grid" aria-label="PASDP success rates across 10 simulation tasks">
         <article class="simulation-task" style="--success-rate: 100%" aria-label="Coffee: 100 percent success rate">
@@ -273,96 +278,120 @@
         </article>
       </div>
 
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Simulation performance table">
-        <table>
-          <caption>Performance comparison on 10 Robomimic tasks at H = 40</caption>
-          <thead>
-            <tr>
-              <th scope="col">Method</th>
-              <th scope="col">Time<br>(ms)</th>
-              <th scope="col"><abbr title="Coffee">C.</abbr></th>
-              <th scope="col"><abbr title="Threading">T.</abbr></th>
-              <th scope="col"><abbr title="Pick Place">P.P.</abbr></th>
-              <th scope="col"><abbr title="Coffee Preparation">C.P.</abbr></th>
-              <th scope="col"><abbr title="Hammer Cleanup">H.C.</abbr></th>
-              <th scope="col"><abbr title="Square">Sq.</abbr></th>
-              <th scope="col"><abbr title="Stack">St.</abbr></th>
-              <th scope="col"><abbr title="Stack Three">S.T.</abbr></th>
-              <th scope="col"><abbr title="Nut Assembly">N.A.</abbr></th>
-              <th scope="col"><abbr title="Three-Piece Assembly">T.P.A.</abbr></th>
-              <th scope="col">Avg.</th>
-            </tr>
-          </thead>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table I · Common prediction horizon H = 40, NFE = 1 · task success (%)">
+        <table id="main_simulation_comparison" data-paper-table="main_simulation_comparison">
+          <caption>Table I · Common prediction horizon H = 40, NFE = 1 · task success (%)</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">NFE</th><th scope="col">C.</th><th scope="col">T.</th><th scope="col">P.P.</th><th scope="col">C.P.</th><th scope="col">H.C.</th><th scope="col">Sq.</th><th scope="col">St.</th><th scope="col">S.T.</th><th scope="col">N.A.</th><th scope="col">T.P.A.</th><th scope="col">Avg. (%)</th><th scope="col">Time (ms)</th></tr></thead>
           <tbody>
-            <tr class="highlight-row">
-              <th scope="row">PASDP</th>
-              <td>18</td><td>100</td><td>90</td><td>33</td><td>91</td><td>100</td><td>97</td><td>98</td><td>43</td><td>54</td><td>64</td><td><strong>77.0</strong></td>
-            </tr>
-            <tr>
-              <th scope="row">DP</th>
-              <td>261</td><td>96</td><td>86</td><td>17</td><td>90</td><td>100</td><td>80</td><td>100</td><td>58</td><td>56</td><td>76</td><td>75.9</td>
-            </tr>
-            <tr>
-              <th scope="row">SDP</th>
-              <td><strong>11</strong></td><td>36</td><td>18</td><td>9</td><td>20</td><td>76</td><td>4</td><td>58</td><td>16</td><td>8</td><td>22</td><td>26.7</td>
-            </tr>
-            <tr>
-              <th scope="row">FP</th>
-              <td>18</td><td>98</td><td>78</td><td>24</td><td>80</td><td>100</td><td>78</td><td>100</td><td>64</td><td>68</td><td>66</td><td>75.6</td>
-            </tr>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>1</td><td>100</td><td>90</td><td>33</td><td>91</td><td>100</td><td>97</td><td>98</td><td>43</td><td>54</td><td>64</td><td>77.0</td><td>18</td></tr>
+            <tr><th scope="row">DP (x₀)</th><td>1</td><td>96</td><td>86</td><td>4</td><td>90</td><td>100</td><td>80</td><td>100</td><td>58</td><td>48</td><td>76</td><td>73.8</td><td>18</td></tr>
+            <tr><th scope="row">SDP (x₀)</th><td>1</td><td>36</td><td>18</td><td>9</td><td>20</td><td>76</td><td>4</td><td>58</td><td>16</td><td>8</td><td>22</td><td>26.7</td><td>18</td></tr>
+            <tr><th scope="row">FP (v)</th><td>1</td><td>98</td><td>78</td><td>24</td><td>80</td><td>100</td><td>78</td><td>100</td><td>64</td><td>68</td><td>66</td><td>75.6</td><td>18</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="table-note">Success rates are percentages. C. = Coffee; T. = Threading; P.P. = Pick Place; C.P. = Coffee Preparation; H.C. = Hammer Cleanup; Sq. = Square; St. = Stack; S.T. = Stack Three; N.A. = Nut Assembly; T.P.A. = Three-Piece Assembly.</p>
+      <p class="table-note">Each task value is a success percentage; Avg. is the macro-average across the ten tasks. A common H and NFE do not imply identical closed-loop settings. C. = Coffee; T. = Threading; P.P. = Pick Place; C.P. = Coffee Preparation; H.C. = Hammer Cleanup; Sq. = Square; St. = Stack; S.T. = Stack Three; N.A. = Nut Assembly; T.P.A. = Three-Piece Assembly.</p>
+
+      <details class="experiment-details">
+        <summary>Extended simulation comparisons · configurations, execution horizons, and inference budgets</summary>
+        <h5>Method-dependent configurations</h5>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table II · Method-dependent operating points">
+        <table id="method_configurations" data-paper-table="method_configurations">
+          <caption>Table II · Method-dependent operating points</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Target</th><th scope="col">H</th><th scope="col">T<sub>o</sub></th><th scope="col">T<sub>a</sub></th><th scope="col">Levels</th><th scope="col">NFE</th><th scope="col">Success (%)</th><th scope="col">Time (ms)</th></tr></thead>
+          <tbody>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>x₀</td><td>40</td><td>1</td><td>1</td><td>40</td><td>1</td><td>77.0</td><td>18</td></tr>
+            <tr><th scope="row">DP</th><td>ε</td><td>16</td><td>2</td><td>8</td><td>100</td><td>10</td><td>75.2</td><td>83</td></tr>
+            <tr><th scope="row">SDP</th><td>ε</td><td>20</td><td>2</td><td>8</td><td>100</td><td>8</td><td>75.8</td><td>74</td></tr>
+            <tr><th scope="row">FP</th><td>v</td><td>8</td><td>2</td><td>4</td><td>N/A</td><td>1</td><td>61.7</td><td>19</td></tr>
+          </tbody>
+        </table>
+      </div>
+        <p class="table-note">T<sub>o</sub> and T<sub>a</sub> are the observation and execution horizons. Levels means position-indexed corruption levels for PASDP and diffusion training timesteps for DP / SDP; it is not applicable to FP. These configurations are not fully matched closed-loop comparisons.</p>
+        <h5>Single-evaluation operating points</h5>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table III · NFE = 1, grouped by execution horizon">
+        <table id="single_eval_operating_points" data-paper-table="single_eval_operating_points">
+          <caption>Table III · NFE = 1, grouped by execution horizon</caption>
+          <thead><tr><th scope="col">T<sub>a</sub></th><th scope="col">Method</th><th scope="col">Target</th><th scope="col">H</th><th scope="col">Levels</th><th scope="col">NFE</th><th scope="col">Success (%)</th><th scope="col">Time (ms)</th></tr></thead>
+          <tbody>
+            <tr class="highlight-row"><th scope="row">1</th><td>PASDP</td><td>x₀</td><td>40</td><td>40</td><td>1</td><td>77.0</td><td>18</td></tr>
+            <tr><th scope="row">1</th><td>DP</td><td>x₀</td><td>40</td><td>40</td><td>1</td><td>73.8</td><td>18</td></tr>
+            <tr><th scope="row">1</th><td>DP</td><td>ε</td><td>16</td><td>100</td><td>1</td><td>0.0</td><td>23</td></tr>
+            <tr><th scope="row">1</th><td>SDP</td><td>ε</td><td>20</td><td>100</td><td>1</td><td>49.0</td><td>24</td></tr>
+            <tr><th scope="row">1</th><td>FP</td><td>v</td><td>4</td><td>N/A</td><td>1</td><td>42.3</td><td>22</td></tr>
+            <tr><th scope="row">8</th><td>DP</td><td>x₀</td><td>16</td><td>40</td><td>1</td><td>64.4</td><td>17</td></tr>
+            <tr><th scope="row">8</th><td>DP</td><td>x₀</td><td>16</td><td>100</td><td>1</td><td>62.5</td><td>17</td></tr>
+            <tr><th scope="row">8</th><td>DP</td><td>ε</td><td>16</td><td>100</td><td>1</td><td>0.3</td><td>21</td></tr>
+            <tr><th scope="row">8</th><td>SDP</td><td>ε</td><td>20</td><td>100</td><td>1</td><td>0.3</td><td>21</td></tr>
+          </tbody>
+        </table>
+      </div>
+        <p class="table-note">T<sub>a</sub> = 1 and T<sub>a</sub> = 8 are separate groups. SDP results in these groups use separately trained checkpoints; their difference cannot be attributed solely to T<sub>a</sub>. PASDP's NFE = 1 denotes steady-state streaming inference, not truncation of a multi-step sampler. The PASDP reference result is reused, not a new experimental run.</p>
+        <h5>Inference-budget analysis</h5>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table IV · DP inference-budget sweep and PASDP reference">
+        <table id="inference_budget_sweep" data-paper-table="inference_budget_sweep">
+          <caption>Table IV · DP inference-budget sweep and PASDP reference</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Target</th><th scope="col">Levels</th><th scope="col">NFE</th><th scope="col">Success (%)</th><th scope="col">Time (ms)</th></tr></thead>
+          <tbody>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>x₀</td><td>40</td><td>1</td><td>77.0</td><td>18</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>40</td><td>1</td><td>64.4</td><td>17</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>40</td><td>20</td><td>62.8</td><td>137</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>40</td><td>40</td><td>71.0</td><td>289</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>100</td><td>1</td><td>62.5</td><td>17</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>100</td><td>20</td><td>70.2</td><td>153</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>100</td><td>40</td><td>61.9</td><td>263</td></tr>
+            <tr><th scope="row">DP</th><td>x₀</td><td>100</td><td>100</td><td>61.3</td><td>640</td></tr>
+            <tr><th scope="row">DP</th><td>ε</td><td>100</td><td>1</td><td>0.3</td><td>21</td></tr>
+            <tr><th scope="row">DP</th><td>ε</td><td>100</td><td>10</td><td>75.2</td><td>83</td></tr>
+            <tr><th scope="row">DP</th><td>ε</td><td>100</td><td>20</td><td>75.7</td><td>144</td></tr>
+            <tr><th scope="row">DP</th><td>ε</td><td>100</td><td>40</td><td>70.9</td><td>275</td></tr>
+            <tr><th scope="row">DP</th><td>ε</td><td>100</td><td>100</td><td>73.3</td><td>671</td></tr>
+          </tbody>
+        </table>
+      </div>
+        <p class="table-note">PASDP uses H = 40 and T<sub>a</sub> = 1; the DP sweep uses H = 16 and T<sub>a</sub> = 8. For each DP training configuration, NFE is varied on the same selected checkpoint without retraining. These rows do not have the same closed-loop configuration.</p>
+      </details>
 
       <h4>Real-World Experiments</h4>
-      <p>The real-world experiments evaluate dynamic conveyor-belt manipulation. PASDP maintains an inference latency of approximately 11 ms across the reported execution settings.</p>
+      <p>The dynamic conveyor setup uses a Franka Research 3 arm and two Intel RealSense D405 cameras. Task 1 and Task 2 use 66 and 81 demonstrations, respectively, with 300 training epochs. The command loop runs at 60 Hz while the conveyor remains in motion.</p>
+      <figure class="paper-figure setup-figure">
+        <a href="images/figures/real-world-setup.png" target="_blank" rel="noopener noreferrer"><img src="images/figures/real-world-setup.png" alt="Franka Research 3 arm above the conveyor with wrist-mounted and external RealSense D405 cameras" width="1319" height="905" loading="lazy"></a>
+        <figcaption>Real-world platform. This project photograph is reused from the earlier TRO manuscript; the hardware matches the current manuscript's setup.</figcaption>
+      </figure>
+      <figure class="paper-figure">
+        <a href="images/figures/real-world-tasks.png" target="_blank" rel="noopener noreferrer"><img src="images/figures/real-world-tasks.png" alt="Sequential picking and stacking of four cup types, and continuous pick-and-place of eight jelly object variants" width="2400" height="893" loading="lazy"></a>
+        <figcaption>Task overview (manuscript Fig. 4): four cup types for sequential picking-and-stacking, and eight object variants for continuous pick-and-place. The figure is shared by the earlier TRO and current manuscripts.</figcaption>
+      </figure>
 
       <h5>Task 1: Sequential Conveyor Picking</h5>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Sequential conveyor picking table">
-        <table>
-          <caption>Performance comparison on real-world Task 1</caption>
-          <thead>
-            <tr>
-              <th scope="col">Method</th>
-              <th scope="col">Motion<br>acceleration</th>
-              <th scope="col">Maximum successful<br>subtasks</th>
-              <th scope="col">Task time<br>(s)</th>
-              <th scope="col">Full<br>success</th>
-              <th scope="col">Inference time<br>(ms)</th>
-            </tr>
-          </thead>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table VII · Four-stage picking-and-stacking · 20 independent trials per setting">
+        <table id="real_world_task1" data-paper-table="real_world_task1">
+          <caption>Table VII · Four-stage picking-and-stacking · 20 independent trials per setting</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Setting</th><th scope="col">Max. stage</th><th scope="col">Reach rate (%)</th><th scope="col">Mean time (s)</th><th scope="col">Latency (ms)</th></tr></thead>
           <tbody>
-            <tr class="highlight-row"><th scope="row">PASDP</th><td>1×</td><td>3</td><td>95</td><td>No</td><td>11</td></tr>
-            <tr class="highlight-row"><th scope="row">PASDP</th><td>2×</td><td>4</td><td>40</td><td>Yes</td><td>11</td></tr>
-            <tr class="highlight-row"><th scope="row">PASDP</th><td>4×</td><td>4</td><td>25</td><td>Yes</td><td>11</td></tr>
-            <tr><th scope="row">DP</th><td>1×</td><td>2</td><td>60</td><td>No</td><td>120</td></tr>
-            <tr><th scope="row">DP</th><td>2×</td><td>0</td><td>—</td><td>No</td><td>120</td></tr>
-            <tr><th scope="row">DP</th><td>4×</td><td>0</td><td>—</td><td>No</td><td>120</td></tr>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>1×</td><td>3/4</td><td>55</td><td>95</td><td>11</td></tr>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>2×</td><td>4/4</td><td>100</td><td>40</td><td>11</td></tr>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>4×</td><td>4/4</td><td>100</td><td>25</td><td>11</td></tr>
+            <tr><th scope="row">DP</th><td>1×</td><td>2/4</td><td>5</td><td>60</td><td>120</td></tr>
+            <tr><th scope="row">DP</th><td>2×</td><td>0/4</td><td>0</td><td>--</td><td>120</td></tr>
+            <tr><th scope="row">DP</th><td>4×</td><td>0/4</td><td>0</td><td>--</td><td>120</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="table-note">The reported PASDP inference time remains 11 ms at 1×, 2×, and 4× motion acceleration.</p>
+      <p class="table-note">Reach rate is the fraction of trials reaching the reported maximum stage. Mean time is averaged only over trials reaching that stage. For both methods, an N× motion setting compresses the predicted motion of N nominal action periods into one nominal period; it is not a playback-speed or latency ratio. PASDP at 2× and 4× completes all four stages in 100% of the trials. Latency is measured from image acquisition to command issuance, not robot motion completion.</p>
 
       <h5>Task 2: Continuous Pick-and-Place</h5>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Continuous pick-and-place table">
-        <table>
-          <caption>Performance comparison on real-world Task 2</caption>
-          <thead>
-            <tr>
-              <th scope="col">Method</th>
-              <th scope="col">Inference time<br>(ms)</th>
-              <th scope="col">Task time<br>(s)</th>
-              <th scope="col">Objects required<br>for 10 successes</th>
-            </tr>
-          </thead>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table VIII · Continuous operation until 80 successful grasps">
+        <table id="real_world_task2" data-paper-table="real_world_task2">
+          <caption>Table VIII · Continuous operation until 80 successful grasps</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Perception-to-command<br>latency (ms)</th><th scope="col">Normalized time for<br>10 successful grasps (s)</th><th scope="col">Objects required for<br>10 successful grasps</th></tr></thead>
           <tbody>
             <tr class="highlight-row"><th scope="row">PASDP</th><td>11</td><td>30</td><td>10.8</td></tr>
             <tr><th scope="row">DP</th><td>102</td><td>120</td><td>32.5</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="table-note">For PASDP, task time is the average successful-sequence time. The DP value is the best uninterrupted sequence reported in the manuscript.</p>
+      <p class="table-note">Both methods run continuously until 80 successful grasps are accumulated. Operation time and arriving-object count are normalized to ten successful grasps; lower is better. Perception-to-command latency includes image preprocessing and policy inference but excludes robot execution after command issuance. These comparisons do not isolate latency as the sole cause of the performance difference.</p>
 
       <div class="comparison-heading real-world-comparison-heading">
         <p class="eyebrow">Detailed Videos</p>
@@ -460,9 +489,106 @@
         </article>
       </div>
 
+      <h4>Component Ablations</h4>
+      <p>Table V examines the ordered position-to-corruption mapping, position-weighted loss, and persistent-buffer reuse across all ten tasks, using the main evaluation protocol.</p>
+      <figure class="ablation-figure">
+        <figcaption>Macro-average success (%) · full PASDP and component variants</figcaption>
+        <ul class="ablation-bars">
+          <li data-ablation-variant="PASDP" data-success="77.0" data-nfe="1"><span class="ablation-label">PASDP</span><span class="ablation-track"><span class="ablation-fill" style="width: 77.0%"></span></span><strong>77.0%</strong><span class="ablation-budget">1 NFE</span></li>
+          <li data-ablation-variant="Fixed-permutation schedule" data-success="56.3" data-nfe="1"><span class="ablation-label">Fixed-permutation schedule</span><span class="ablation-track"><span class="ablation-fill" style="width: 56.3%"></span></span><strong>56.3%</strong><span class="ablation-budget">1 NFE</span></li>
+          <li data-ablation-variant="Uniform loss weighting" data-success="54.6" data-nfe="1"><span class="ablation-label">Uniform loss weighting</span><span class="ablation-track"><span class="ablation-fill" style="width: 54.6%"></span></span><strong>54.6%</strong><span class="ablation-budget">1 NFE</span></li>
+          <li data-ablation-variant="Fixed permutation + Uniform weights" data-success="62.3" data-nfe="1"><span class="ablation-label">Fixed permutation + Uniform weights</span><span class="ablation-track"><span class="ablation-fill" style="width: 62.3%"></span></span><strong>62.3%</strong><span class="ablation-budget">1 NFE</span></li>
+          <li data-ablation-variant="No buffer reuse" data-success="35.2" data-nfe="41"><span class="ablation-label">No buffer reuse</span><span class="ablation-track"><span class="ablation-fill" style="width: 35.2%"></span></span><strong>35.2%</strong><span class="ablation-budget">41 NFE</span></li>
+        </ul>
+      </figure>
+      <p class="table-note">No buffer reuse performs 40 initialization evaluations plus one decision-time update: 41 NFE per decision. It is a functional ablation, not a computation-matched NFE = 1 baseline. The joint training ablation performs better than either individual ablation but remains below full PASDP; these effects are not additive under the evaluated seed.</p>
+      <details class="experiment-details">
+        <summary>Task-by-task component ablation results · Table V</summary>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Table V · Component ablation · task success (%)">
+        <table id="component_ablation" data-paper-table="component_ablation">
+          <caption>Table V · Component ablation · task success (%)</caption>
+          <thead><tr><th scope="col">Variant</th><th scope="col">NFE / decision</th><th scope="col">C.</th><th scope="col">T.</th><th scope="col">P.P.</th><th scope="col">C.P.</th><th scope="col">H.C.</th><th scope="col">Sq.</th><th scope="col">St.</th><th scope="col">S.T.</th><th scope="col">N.A.</th><th scope="col">T.P.A.</th><th scope="col">Avg. (%)</th><th scope="col">Δ (pp)</th></tr></thead>
+          <tbody>
+            <tr class="highlight-row"><th scope="row">PASDP</th><td>1</td><td>100</td><td>90</td><td>33</td><td>91</td><td>100</td><td>97</td><td>98</td><td>43</td><td>54</td><td>64</td><td>77.0</td><td>--</td></tr>
+            <tr><th scope="row">Fixed-permutation schedule</th><td>1</td><td>98</td><td>89</td><td>9</td><td>75</td><td>96</td><td>50</td><td>86</td><td>26</td><td>1</td><td>33</td><td>56.3</td><td>-20.7</td></tr>
+            <tr><th scope="row">Uniform loss weighting</th><td>1</td><td>81</td><td>77</td><td>2</td><td>60</td><td>100</td><td>73</td><td>81</td><td>5</td><td>37</td><td>30</td><td>54.6</td><td>-22.4</td></tr>
+            <tr><th scope="row">Fixed permutation + Uniform weights</th><td>1</td><td>100</td><td>82</td><td>19</td><td>76</td><td>100</td><td>80</td><td>94</td><td>29</td><td>12</td><td>31</td><td>62.3</td><td>-14.7</td></tr>
+            <tr><th scope="row">No buffer reuse</th><td>41</td><td>60</td><td>36</td><td>0</td><td>35</td><td>14</td><td>79</td><td>73</td><td>12</td><td>21</td><td>22</td><td>35.2</td><td>-41.8</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </details>
+
       <h4>Parameter Sensitivity</h4>
-      <p>Parameter-sensitivity results for the position-weighting coefficient and prediction horizon are reported in the manuscript.</p>
-      <div class="wide-placeholder">Ablation figure to be added</div>
+      <p>The development sweep varies the loss-weight decay coefficient β and prediction horizon H on the Square task using training seed 10000. These are development-task results, not ten-task averages. The 28 success-rate values also match the earlier TRO manuscript's parameter table; the labels and selection criterion below follow the current manuscript.</p>
+      <div class="table-wrap heatmap-wrap" tabindex="0" role="region" aria-label="Table VI · Square development sweep · success (%)">
+        <table id="beta_h_selection" data-paper-table="beta_h_selection" class="heatmap-table">
+          <caption>Table VI · Square development sweep · success (%)</caption>
+          <thead><tr><th scope="col">β</th><th scope="col">w<sub>7</sub></th><th scope="col">H = 16</th><th scope="col">H = 32</th><th scope="col">H = 40</th><th scope="col">H = 64</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0</th><td>1.00</td><td style="--cell-lightness: 89.8%">63.7</td><td style="--cell-lightness: 81.2%">75.8</td><td style="--cell-lightness: 76.2%">82.8</td><td style="--cell-lightness: 83.6%">72.4</td></tr>
+            <tr><th scope="row">0.05</th><td>0.70</td><td style="--cell-lightness: 93.4%">58.6</td><td style="--cell-lightness: 78.7%">79.3</td><td style="--cell-lightness: 84.9%">70.6</td><td style="--cell-lightness: 81.1%">75.9</td></tr>
+            <tr><th scope="row">0.10</th><td>0.50</td><td style="--cell-lightness: 87.3%">67.2</td><td style="--cell-lightness: 77.5%">81.0</td><td style="--cell-lightness: 76.3%">82.7</td><td style="--cell-lightness: 75.0%">84.5</td></tr>
+            <tr><th scope="row">0.15</th><td>0.35</td><td style="--cell-lightness: 89.7%">63.8</td><td style="--cell-lightness: 70.1%">91.4</td><td style="--cell-lightness: 68.9%">93.1</td><td style="--cell-lightness: 76.2%">82.8</td></tr>
+            <tr><th scope="row">0.20</th><td>0.25</td><td style="--cell-lightness: 91.0%">62.0</td><td style="--cell-lightness: 73.8%">86.2</td><td style="--cell-lightness: 67.7%" class="selected-cell">94.8</td><td style="--cell-lightness: 91.0%">62.0</td></tr>
+            <tr><th scope="row">0.25</th><td>0.17</td><td style="--cell-lightness: 83.6%">72.4</td><td style="--cell-lightness: 72.6%">87.9</td><td style="--cell-lightness: 66.4%" class="best-cell">96.6</td><td style="--cell-lightness: 78.7%">79.3</td></tr>
+            <tr><th scope="row">0.30</th><td>0.12</td><td style="--cell-lightness: 75.1%">84.4</td><td style="--cell-lightness: 68.9%">93.1</td><td style="--cell-lightness: 67.7%">94.8</td><td style="--cell-lightness: 81.1%">75.9</td></tr>
+            <tr><th scope="row" colspan="2">Steady-state latency (ms)</th><td>16</td><td>16</td><td>16</td><td>16</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note heatmap-legend">Darker cells indicate higher success. <span class="selected-key">Outlined</span>: selected β = 0.20, H = 40 (94.8%). <span class="best-key">Underlined</span>: highest observed result, β = 0.25, H = 40 (96.6%).</p>
+      <p class="table-note">The selection criterion keeps the first eight action weights above 0.2: w<sub>7</sub> = max(exp(−7β), 0.02). The selected β = 0.20 has w<sub>7</sub> ≈ 0.25; β = 0.25 has w<sub>7</sub> ≈ 0.17 and does not satisfy this criterion. Main models are independently trained with seed 42. Sweep latency is 16 ms at batch size one on a separate RTX 4090 workstation, excludes initialization, and must not be directly compared with the main-platform 18 ms measurement. The measured within-sweep latency is not a claim that computation is independent of H.</p>
+
+      <details id="earlier-development-ablations" class="experiment-details">
+        <summary>Earlier Development Ablations · TRO appendix · click to expand</summary>
+        <p class="protocol-note">These preliminary studies were completed before the parameter selection reported in Table VI, as confirmed by the authors. They informed observation-history, training-batch, and demonstration-budget choices. Results are reproduced from the earlier TRO appendix and are not additional results from the current ten-task benchmark or the Square sweep in Table VI. PADP is the method name used in that earlier draft.</p>
+        <h5>Observation horizon</h5>
+        <div class="table-wrap heatmap-wrap" tabindex="0" role="region" aria-label="Archived TRO appendix · observation-step ablation">
+          <table id="legacy_obs_steps_ablation" data-legacy-table="obs_steps_ablation" class="legacy-table">
+            <caption>Archived TRO appendix · observation-step ablation</caption>
+            <thead><tr><th scope="col">Method (legacy name)</th><th scope="col">Observation steps</th><th scope="col">H</th><th scope="col">Loss weight</th><th scope="col">Execution steps</th><th scope="col">Execution mode</th><th scope="col">Success (%)</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">PADP</th><td>2</td><td>40</td><td>β = 0.2</td><td>1</td><td>Single-step</td><td>91.3</td></tr>
+              <tr><th scope="row">PADP</th><td>1</td><td>40</td><td>β = 0.2</td><td>1</td><td>Single-step</td><td>96.5</td></tr>
+              <tr><th scope="row">DP</th><td>2</td><td>16</td><td>≡ 1</td><td>8</td><td>Multi-step</td><td>94.0</td></tr>
+              <tr><th scope="row">DP</th><td>1</td><td>16</td><td>≡ 1</td><td>8</td><td>Multi-step</td><td>62.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">The archived DP comparison uses 100 diffusion training timesteps and 20 inference steps. “Execution mode” preserves the source labels; execution steps are not the number of network evaluations.</p>
+        <h5>Training batch size</h5>
+        <div class="table-wrap heatmap-wrap" tabindex="0" role="region" aria-label="Archived TRO appendix · batch-size ablation">
+          <table id="legacy_batch_size_ablation" data-legacy-table="batch_size_ablation" class="legacy-table">
+            <caption>Archived TRO appendix · batch-size ablation</caption>
+            <thead><tr><th scope="col">Batch size</th><th scope="col">Success (%)</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">8</th><td>91.3</td></tr>
+              <tr><th scope="row">16</th><td>93.1</td></tr>
+              <tr><th scope="row">32</th><td>65.5</td></tr>
+              <tr><th scope="row">64</th><td>96.5</td></tr>
+              <tr><th scope="row">128</th><td>93.1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Reported fixed settings: 200 demonstrations, H = 40, one observation step, and one execution step. The original caption writes the weighting setting as “exp(0.2)”; that legacy notation is not reinterpreted as the current loss formula. Among these tested batches, 64 has the highest reported success, 96.5%.</p>
+        <h5>Demonstration data and batch size</h5>
+        <div class="table-wrap heatmap-wrap" tabindex="0" role="region" aria-label="Archived TRO appendix · demonstration-count ablation">
+          <table id="legacy_data_size_ablation" data-legacy-table="data_size_ablation" class="legacy-table">
+            <caption>Archived TRO appendix · demonstration-count ablation</caption>
+            <thead><tr><th scope="col">Demonstrations</th><th scope="col">Success (%)<br>batch size 64</th><th scope="col">Success (%)<br>batch size 128</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">50</th><td>36.2</td><td>25.8</td></tr>
+              <tr><th scope="row">100</th><td>81.0</td><td>65.5</td></tr>
+              <tr><th scope="row">200</th><td>96.5</td><td>93.1</td></tr>
+              <tr><th scope="row">400</th><td>98.2</td><td>100.0</td></tr>
+              <tr><th scope="row">1000</th><td>100.0</td><td>100.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">This is a joint demonstration-count / batch-size study, not a claim that either factor alone explains performance. At 200 demonstrations, the archived results are 96.5% for batch size 64 and 93.1% for batch size 128.</p>
+        <p class="table-note">Source: the earlier TRO manuscript, Appendix “Ablation Experiment.” The appendix does not identify the task, rollout seeds, or evaluation episode count for each of these tables. These historical development rates must not be read as ten-task macro-averages, pooled with current test results, or directly compared with the separately trained Table VI development sweep. They describe the tested choices, not a universal optimum.</p>
+      </details>
     </section>
 
     <hr>
@@ -507,10 +633,12 @@
 
     <hr>
 
+    <!-- Acknowledgements hidden until authoritative funding or acknowledgement text is supplied.
     <section id="acknowledgements">
       <h3>Acknowledgements</h3>
       <p>Acknowledgements to be added.</p>
     </section>
+    -->
 
     <section id="contact">
       <h3>Contact</h3>
